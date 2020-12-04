@@ -1,6 +1,9 @@
-# Title     : Revenue Forcasting todo expand title
-# Objective : todo expand objective
-# Created by: Michael Noel, University of Wisconsin - Milwaukee
+# Title     : Forcasting Revenue at an Advertising Agency.
+# Objective : Explore the revenue forcasting capavilities of datasciece at an advertising agency utilizing their ERP database.
+# Created by: Aaron Koss, Michael Noel
+# Course : 216-795-004 - BUSADM 795 - Seminar-in-Management: Ideas and Applications of Data Science in Difference Fields
+# Semseter : Fall 2020
+# Authors : Aaron Koss, Michael Noel  todo: add email addresses?
 # Created on: 12/3/20
 
 # load required packages
@@ -32,7 +35,7 @@ base_page_to_copy <- tabPanel(
                     100,
                     50,
                     width = 2000),
-        plotOutput('ex_plot', height = 800),
+        plotOutput('ex_plot', height = 650),
     )
     ,
     div(class = 'section',
@@ -176,17 +179,7 @@ ui <- bootstrapPage(
              implementation,
              next_steps,
              references
-             #,
-             #
-             ## section 2 panel
-             #tabPanel(title = 'example plots',
-             #         sidebarPanel(width = 1500,
-             #                      sliderInput(inputId = 'slider3', label = 'Number of observations', 1, 100, 50)
-             #         ),
-             #         mainPanel(width = 1500,
-             #                   plotOutput('plot3', height = 800)
-             #         )
-             #)
+             # no trailing comma
   )
 )
 
