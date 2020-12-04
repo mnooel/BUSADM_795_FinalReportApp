@@ -27,7 +27,6 @@ base_page_to_copy <- tabPanel(
         h1('BASE PAGE'),
     ),
     div(class = 'section',
-        h4('HEADING 1:'),
         includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
     ),
     div(class = 'section',
@@ -169,6 +168,9 @@ references <- tabPanel(
         h4('Needed Items:'),
         includeHTML(path = 'sections/references/rf_references.html')
     ),
+    div(class = 'section',
+        includeHTML(path = 'sections/references/rf_body1.html')
+    ),
   ),
 )
 
@@ -177,7 +179,7 @@ ui <- bootstrapPage(
   tags$head(includeCSS('styles.css')),
   navbarPage(theme = shinytheme('flatly'),
              header = tags$head(includeCSS(path = 'styles.css')),
-             position = c('fixed-top'),
+             position = 'fixed-top',
              collapsable = FALSE,
              title = "Revenue Forcasting",
              id = 'nav',
