@@ -22,6 +22,7 @@ div.section {
 body, label, input, button, select, p {
   font-family: 'Helvetica Neue', Helvetica;
   font-size: 14pt;
+  padding-top: 10px;
   font-weight: 350;
 }
 h1, h2, h3, h4 {
