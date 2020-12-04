@@ -53,6 +53,9 @@ executive_summary <- tabPanel(
         h4('Needed Items:'),
         includeHTML(path = 'sections/executive_summary/es_requirements.html')
     ),
+    div(class = 'section',
+        includeHTML(path = 'sections/executive_summary/es_body1.html')
+    ),
   ),
 )
 
@@ -176,17 +179,6 @@ ui <- bootstrapPage(
              implementation,
              next_steps,
              references
-             #,
-             #
-             ## section 2 panel
-             #tabPanel(title = 'example plots',
-             #         sidebarPanel(width = 1500,
-             #                      sliderInput(inputId = 'slider3', label = 'Number of observations', 1, 100, 50)
-             #         ),
-             #         mainPanel(width = 1500,
-             #                   plotOutput('plot3', height = 800)
-             #         )
-             #)
   )
 )
 
