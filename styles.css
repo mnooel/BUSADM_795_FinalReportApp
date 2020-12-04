@@ -25,6 +25,16 @@ div.section_head {
   overflow: hidden;
 }
 
+div.html_content {
+  margin: auto;
+  padding-top: 15px;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
 .irs-text {
   font-size: 14pt;
 }
