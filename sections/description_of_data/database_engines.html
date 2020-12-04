@@ -1,0 +1,237 @@
+<pre style='color:#000000;background:#ffffff;'><span style='color:#696969; '># database_access.connections.py</span>
+
+<span style='color:#800000; font-weight:bold; '>import</span> logging
+<span style='color:#800000; font-weight:bold; '>import</span> time
+<span style='color:#800000; font-weight:bold; '>import</span> calendar
+<span style='color:#800000; font-weight:bold; '>from</span> datetime <span style='color:#800000; font-weight:bold; '>import</span> datetime
+<span style='color:#800000; font-weight:bold; '>from</span> typing <span style='color:#800000; font-weight:bold; '>import</span> <span style='color:#400000; '>List</span>
+
+<span style='color:#800000; font-weight:bold; '>from</span> sqlalchemy <span style='color:#800000; font-weight:bold; '>import</span> create_engine
+<span style='color:#800000; font-weight:bold; '>from</span> sqlalchemy <span style='color:#800000; font-weight:bold; '>import</span> MetaData
+<span style='color:#800000; font-weight:bold; '>import</span> pandas <span style='color:#800000; font-weight:bold; '>as</span> pd
+
+<span style='color:#800000; font-weight:bold; '>from</span> settings <span style='color:#800000; font-weight:bold; '>import</span> SOURCE_DB_URL
+<span style='color:#800000; font-weight:bold; '>from</span> settings <span style='color:#800000; font-weight:bold; '>import</span> LITE_DB_URL
+<span style='color:#800000; font-weight:bold; '>from</span> settings <span style='color:#800000; font-weight:bold; '>import</span> SOURCE_SQL_SCRIPT_DIR
+<span style='color:#800000; font-weight:bold; '>from</span> settings <span style='color:#800000; font-weight:bold; '>import</span> CSV_TABLE_DIR
+<span style='color:#800000; font-weight:bold; '>from</span> settings <span style='color:#800000; font-weight:bold; '>import</span> LITE_SQL_SCRIPT_DIR
+<span style='color:#800000; font-weight:bold; '>from</span> setup_logging <span style='color:#800000; font-weight:bold; '>import</span> setup_logger
+
+connections_logger <span style='color:#808030; '>=</span> logging<span style='color:#808030; '>.</span>getLogger<span style='color:#808030; '>(</span><span style='color:#074726; '>__name__</span><span style='color:#808030; '>)</span>
+setup_logger<span style='color:#808030; '>(</span>connections_logger<span style='color:#808030; '>,</span> <span style='color:#0000e6; '>'connections.log'</span><span style='color:#808030; '>)</span>
+
+
+<span style='color:#800000; font-weight:bold; '>class</span> BaseConnection<span style='color:#808030; '>:</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> <span style='color:#074726; '>__init__</span><span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> db_url<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>,</span> write_permission<span style='color:#808030; '>:</span> <span style='color:#400000; '>bool</span><span style='color:#808030; '>,</span> sql_scrip_dir<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+        self<span style='color:#808030; '>.</span>engine <span style='color:#808030; '>=</span> create_engine<span style='color:#808030; '>(</span>db_url<span style='color:#808030; '>,</span> echo<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+        self<span style='color:#808030; '>.</span>write_permission <span style='color:#808030; '>=</span> write_permission
+        self<span style='color:#808030; '>.</span>sql_script_dir <span style='color:#808030; '>=</span> sql_scrip_dir
+        self<span style='color:#808030; '>.</span>metadata<span style='color:#808030; '>:</span> MetaData <span style='color:#808030; '>=</span> <span style='color:#074726; '>None</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> <span style='color:#074726; '>__repr__</span><span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>return</span> f<span style='color:#0000e6; '>'{__class__.__name__}'</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> query_metadata<span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            t1 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+            self<span style='color:#808030; '>.</span>metadata <span style='color:#808030; '>=</span> MetaData<span style='color:#808030; '>(</span>self<span style='color:#808030; '>.</span>engine<span style='color:#808030; '>)</span>
+            self<span style='color:#808030; '>.</span>metadata<span style='color:#808030; '>.</span>reflect<span style='color:#808030; '>(</span>bind<span style='color:#808030; '>=</span>self<span style='color:#808030; '>.</span>engine<span style='color:#808030; '>)</span>
+            t2 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+            diff <span style='color:#808030; '>=</span> <span style='color:#400000; '>round</span><span style='color:#808030; '>(</span>t2 <span style='color:#44aadd; '>-</span> t1<span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>)</span>
+            connections_logger<span style='color:#808030; '>.</span>info<span style='color:#808030; '>(</span>f<span style='color:#0000e6; '>'{self.__repr__()} metadata queried. Tables: '</span>
+                                    f<span style='color:#0000e6; '>'{len(self.metadata.tables)}. Seconds: {diff}.'</span><span style='color:#808030; '>)</span>
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> read_sql_commands_from_script<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> script_file_name<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> <span style='color:#400000; '>List</span><span style='color:#808030; '>[</span><span style='color:#400000; '>str</span><span style='color:#808030; '>]</span><span style='color:#808030; '>:</span>
+        <span style='color:#696969; '>"""Reads .sql and returns a list of all the commands contained."""</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            script_file_path <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>sql_script_dir <span style='color:#44aadd; '>+</span> <span style='color:#0000e6; '>'/'</span> <span style='color:#44aadd; '>+</span> script_file_name
+            <span style='color:#800000; font-weight:bold; '>print</span><span style='color:#808030; '>(</span>script_file_path<span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>with</span> <span style='color:#400000; '>open</span><span style='color:#808030; '>(</span>script_file_path<span style='color:#808030; '>,</span> <span style='color:#0000e6; '>'r'</span><span style='color:#808030; '>)</span> <span style='color:#800000; font-weight:bold; '>as</span> <span style='color:#400000; '>file</span><span style='color:#808030; '>:</span>
+                sql_script <span style='color:#808030; '>=</span> <span style='color:#400000; '>file</span><span style='color:#808030; '>.</span>read<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+                <span style='color:#400000; '>file</span><span style='color:#808030; '>.</span>close<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+            sql_commands <span style='color:#808030; '>=</span> sql_script<span style='color:#808030; '>.</span>split<span style='color:#808030; '>(</span><span style='color:#0000e6; '>';'</span><span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>return</span> sql_commands<span style='color:#808030; '>[</span><span style='color:#808030; '>:</span><span style='color:#44aadd; '>-</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>]</span>  <span style='color:#696969; '># remove the last one because it just an empty string always.</span>
+
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> query_df_from_table_name<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> table_name<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            t1 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+            df <span style='color:#808030; '>=</span> pd<span style='color:#808030; '>.</span>read_sql_table<span style='color:#808030; '>(</span>table_name<span style='color:#808030; '>,</span> self<span style='color:#808030; '>.</span>engine<span style='color:#808030; '>)</span>
+            t2 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+            diff <span style='color:#808030; '>=</span> <span style='color:#400000; '>round</span><span style='color:#808030; '>(</span>t2 <span style='color:#44aadd; '>-</span> t1<span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>)</span>
+            connections_logger<span style='color:#808030; '>.</span>info<span style='color:#808030; '>(</span>f<span style='color:#0000e6; '>'{self.__repr__()} {table_name} queried. Rows: {len(df)}. Seconds: {diff}.'</span><span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>return</span> df
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> query_df_from_sql_script<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> script_file_name<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>,</span> <span style='color:#44aadd; '>**</span>pd_kwargs<span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            sql_commands <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>read_sql_commands_from_script<span style='color:#808030; '>(</span>script_file_name<span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>if</span> <span style='color:#400000; '>len</span><span style='color:#808030; '>(</span>sql_commands<span style='color:#808030; '>)</span> <span style='color:#44aadd; '>></span> <span style='color:#008c00; '>1</span><span style='color:#808030; '>:</span>
+                <span style='color:#800000; font-weight:bold; '>raise</span> <span style='color:#074726; '>ValueError</span><span style='color:#808030; '>(</span>f<span style='color:#0000e6; '>'{script_file_name} for {self.__repr__()} has more than one command. '</span>
+                                 f<span style='color:#0000e6; '>'This is not advisable.'</span><span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>else</span><span style='color:#808030; '>:</span>
+                t1 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+                df <span style='color:#808030; '>=</span> pd<span style='color:#808030; '>.</span>read_sql<span style='color:#808030; '>(</span>sql_commands<span style='color:#808030; '>[</span><span style='color:#008c00; '>0</span><span style='color:#808030; '>]</span><span style='color:#808030; '>,</span> self<span style='color:#808030; '>.</span>engine<span style='color:#808030; '>,</span> <span style='color:#44aadd; '>**</span>pd_kwargs<span style='color:#808030; '>)</span>
+                t2 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+                diff <span style='color:#808030; '>=</span> <span style='color:#400000; '>round</span><span style='color:#808030; '>(</span>t2 <span style='color:#44aadd; '>-</span> t1<span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>)</span>
+                connections_logger<span style='color:#808030; '>.</span>info<span style='color:#808030; '>(</span>f<span style='color:#0000e6; '>'{self.__repr__()} {script_file_name} script queried. '</span>
+                                        f<span style='color:#0000e6; '>'Rows: {len(df)}. Seconds: {diff}.'</span><span style='color:#808030; '>)</span>
+                <span style='color:#800000; font-weight:bold; '>return</span> df
+
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> insert_df_as_table<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> df<span style='color:#808030; '>:</span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>,</span> table_name<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>,</span> <span style='color:#44aadd; '>**</span>pd_kwargs<span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> <span style='color:#074726; '>None</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            <span style='color:#800000; font-weight:bold; '>if</span> self<span style='color:#808030; '>.</span>write_permission <span style='color:#800000; font-weight:bold; '>is</span> <span style='color:#074726; '>False</span><span style='color:#808030; '>:</span>
+                <span style='color:#800000; font-weight:bold; '>raise</span> PermissionError<span style='color:#808030; '>(</span>f<span style='color:#0000e6; '>'{self.__repr__()}.write_permission = False.'</span><span style='color:#808030; '>,</span>
+                                      <span style='color:#0000e6; '>'Inserting data to db is prohibited.'</span><span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>elif</span> <span style='color:#800000; font-weight:bold; '>not</span> <span style='color:#400000; '>isinstance</span><span style='color:#808030; '>(</span>df<span style='color:#808030; '>,</span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+                <span style='color:#800000; font-weight:bold; '>raise</span> <span style='color:#074726; '>TypeError</span><span style='color:#808030; '>(</span>f<span style='color:#0000e6; '>'{self.__repr__()}.insert_table_as_df().'</span>
+                                f<span style='color:#0000e6; '>'df object type required pd.DataFrame, {type(df)} passed'</span><span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>else</span><span style='color:#808030; '>:</span>
+                t1 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+                df<span style='color:#808030; '>.</span>to_sql<span style='color:#808030; '>(</span>table_name<span style='color:#808030; '>,</span> self<span style='color:#808030; '>.</span>engine<span style='color:#808030; '>,</span> <span style='color:#44aadd; '>**</span>pd_kwargs<span style='color:#808030; '>)</span>
+                t2 <span style='color:#808030; '>=</span> time<span style='color:#808030; '>.</span>time<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+                diff <span style='color:#808030; '>=</span> <span style='color:#400000; '>round</span><span style='color:#808030; '>(</span>t2 <span style='color:#44aadd; '>-</span> t1<span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>)</span>
+                connections_logger<span style='color:#808030; '>.</span>info<span style='color:#808030; '>(</span>f<span style='color:#0000e6; '>'{self.__repr__()} {table_name} inserted. Rows: {len(df)}. Seconds: {diff}.'</span><span style='color:#808030; '>)</span>
+
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+
+
+<span style='color:#800000; font-weight:bold; '>class</span> SourceDbConnection<span style='color:#808030; '>(</span>BaseConnection<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> <span style='color:#074726; '>__init__</span><span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+        <span style='color:#400000; '>super</span><span style='color:#808030; '>(</span>SourceDbConnection<span style='color:#808030; '>,</span> self<span style='color:#808030; '>)</span><span style='color:#808030; '>.</span><span style='color:#074726; '>__init__</span><span style='color:#808030; '>(</span>db_url<span style='color:#808030; '>=</span>SOURCE_DB_URL<span style='color:#808030; '>,</span>
+                                                 write_permission<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>,</span>
+                                                 sql_scrip_dir<span style='color:#808030; '>=</span>SOURCE_SQL_SCRIPT_DIR<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> <span style='color:#074726; '>__repr__</span><span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>return</span> f<span style='color:#0000e6; '>'{__class__.__name__}'</span>
+
+
+<span style='color:#800000; font-weight:bold; '>class</span> LiteDbConnection<span style='color:#808030; '>(</span>BaseConnection<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> <span style='color:#074726; '>__init__</span><span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+        <span style='color:#400000; '>super</span><span style='color:#808030; '>(</span>LiteDbConnection<span style='color:#808030; '>,</span> self<span style='color:#808030; '>)</span><span style='color:#808030; '>.</span><span style='color:#074726; '>__init__</span><span style='color:#808030; '>(</span>db_url<span style='color:#808030; '>=</span>LITE_DB_URL<span style='color:#808030; '>,</span>
+                                               write_permission<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>,</span>
+                                               sql_scrip_dir<span style='color:#808030; '>=</span>LITE_SQL_SCRIPT_DIR<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> <span style='color:#074726; '>__repr__</span><span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>return</span> f<span style='color:#0000e6; '>'{__class__.__name__}'</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> _get_last_version_of_time_tables<span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> <span style='color:#400000; '>int</span><span style='color:#808030; '>:</span>
+        df <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>query_df_from_table_name<span style='color:#808030; '>(</span><span style='color:#0000e6; '>'aTimeTableVersion'</span><span style='color:#808030; '>)</span>
+        <span style='color:#800000; font-weight:bold; '>return</span> df<span style='color:#808030; '>[</span><span style='color:#0000e6; '>'version'</span><span style='color:#808030; '>]</span><span style='color:#808030; '>.</span><span style='color:#400000; '>max</span><span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> _update_version<span style='color:#808030; '>(</span>self<span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> <span style='color:#074726; '>None</span><span style='color:#808030; '>:</span>
+        data <span style='color:#808030; '>=</span> <span style='color:#800080; '>{</span><span style='color:#0000e6; '>'version'</span><span style='color:#808030; '>:</span> <span style='color:#808030; '>[</span>self<span style='color:#808030; '>.</span>_get_last_version_of_time_tables<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span> <span style='color:#44aadd; '>+</span> <span style='color:#008c00; '>1</span><span style='color:#808030; '>]</span><span style='color:#808030; '>,</span> <span style='color:#0000e6; '>'date_created'</span><span style='color:#808030; '>:</span> <span style='color:#808030; '>[</span>datetime<span style='color:#808030; '>.</span>now<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>]</span><span style='color:#800080; '>}</span>
+        df <span style='color:#808030; '>=</span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>(</span>data<span style='color:#808030; '>)</span>
+        self<span style='color:#808030; '>.</span>insert_df_as_table<span style='color:#808030; '>(</span>df<span style='color:#808030; '>=</span>df<span style='color:#808030; '>,</span> table_name<span style='color:#808030; '>=</span><span style='color:#0000e6; '>'aTimeTableVersion'</span><span style='color:#808030; '>,</span> if_exists<span style='color:#808030; '>=</span><span style='color:#0000e6; '>'append'</span><span style='color:#808030; '>,</span> index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> _new_time_month_df<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> new_TimeDate_df<span style='color:#808030; '>:</span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>,</span> method<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>:</span>
+        <span style='color:#696969; '>"""Groups the latest aTimeDate version by date"""</span>
+
+        methods <span style='color:#808030; '>=</span> <span style='color:#808030; '>[</span><span style='color:#0000e6; '>'sum'</span><span style='color:#808030; '>,</span> <span style='color:#0000e6; '>'average'</span><span style='color:#808030; '>]</span>
+
+        <span style='color:#696969; '># isolate the first columns to group by</span>
+        grouped_columns <span style='color:#808030; '>=</span> <span style='color:#808030; '>[</span><span style='color:#0000e6; '>'month_int'</span><span style='color:#808030; '>,</span> <span style='color:#0000e6; '>'year_int'</span><span style='color:#808030; '>,</span> <span style='color:#0000e6; '>'period_str'</span><span style='color:#808030; '>]</span>
+        <span style='color:#696969; '># identify columns not in grouped columns</span>
+        other_columns <span style='color:#808030; '>=</span> <span style='color:#808030; '>[</span>x <span style='color:#800000; font-weight:bold; '>for</span> x <span style='color:#800000; font-weight:bold; '>in</span> <span style='color:#400000; '>list</span><span style='color:#808030; '>(</span>new_TimeDate_df<span style='color:#808030; '>.</span>columns<span style='color:#808030; '>)</span> <span style='color:#800000; font-weight:bold; '>if</span> x <span style='color:#800000; font-weight:bold; '>not</span> <span style='color:#800000; font-weight:bold; '>in</span> grouped_columns <span style='color:#800000; font-weight:bold; '>and</span> x <span style='color:#44aadd; '>!=</span> <span style='color:#0000e6; '>'date'</span><span style='color:#808030; '>]</span>
+        <span style='color:#696969; '># group the data</span>
+        <span style='color:#800000; font-weight:bold; '>if</span> method <span style='color:#44aadd; '>==</span> <span style='color:#0000e6; '>'sum'</span><span style='color:#808030; '>:</span>
+            df_grouped<span style='color:#808030; '>:</span> pd<span style='color:#808030; '>.</span>DataFrame <span style='color:#808030; '>=</span> new_TimeDate_df<span style='color:#808030; '>.</span>groupby<span style='color:#808030; '>(</span>grouped_columns<span style='color:#808030; '>,</span> as_index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>,</span> sort<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span><span style='color:#808030; '>[</span>
+                other_columns<span style='color:#808030; '>]</span><span style='color:#808030; '>.</span><span style='color:#400000; '>sum</span><span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+        <span style='color:#800000; font-weight:bold; '>elif</span> method <span style='color:#44aadd; '>==</span> <span style='color:#0000e6; '>'average'</span><span style='color:#808030; '>:</span>
+            df_grouped<span style='color:#808030; '>:</span> pd<span style='color:#808030; '>.</span>DataFrame <span style='color:#808030; '>=</span> new_TimeDate_df<span style='color:#808030; '>.</span>groupby<span style='color:#808030; '>(</span>grouped_columns<span style='color:#808030; '>,</span> as_index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>,</span> sort<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span><span style='color:#808030; '>[</span>
+                other_columns<span style='color:#808030; '>]</span><span style='color:#808030; '>.</span>mean<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+
+        df_grouped<span style='color:#808030; '>[</span><span style='color:#0000e6; '>'number_of_days'</span><span style='color:#808030; '>]</span> <span style='color:#808030; '>=</span> df_grouped<span style='color:#808030; '>.</span>apply<span style='color:#808030; '>(</span>
+            <span style='color:#800000; font-weight:bold; '>lambda</span> x<span style='color:#808030; '>:</span> calendar<span style='color:#808030; '>.</span>_monthlen<span style='color:#808030; '>(</span>x<span style='color:#808030; '>[</span><span style='color:#0000e6; '>'year_int'</span><span style='color:#808030; '>]</span><span style='color:#808030; '>,</span> x<span style='color:#808030; '>[</span><span style='color:#0000e6; '>'month_int'</span><span style='color:#808030; '>]</span><span style='color:#808030; '>)</span><span style='color:#808030; '>,</span> axis<span style='color:#808030; '>=</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>)</span>
+        df_grouped <span style='color:#808030; '>=</span> df_grouped<span style='color:#808030; '>[</span>grouped_columns <span style='color:#44aadd; '>+</span> <span style='color:#808030; '>[</span><span style='color:#0000e6; '>'number_of_days'</span><span style='color:#808030; '>]</span> <span style='color:#44aadd; '>+</span> other_columns<span style='color:#808030; '>]</span>
+
+        <span style='color:#800000; font-weight:bold; '>return</span> df_grouped
+
+    <span style='color:#800000; font-weight:bold; '>def</span> merge_df_to_time_tables_and_update_version<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> df_to_merge<span style='color:#808030; '>:</span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>,</span> method<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> <span style='color:#074726; '>None</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            TimeDate_str <span style='color:#808030; '>=</span> <span style='color:#0000e6; '>'aTimeDate_v'</span>
+            TimeMonth_str <span style='color:#808030; '>=</span> <span style='color:#0000e6; '>'aTimeMonth_v'</span>
+            last_version <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>_get_last_version_of_time_tables<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+            new_version <span style='color:#808030; '>=</span> last_version <span style='color:#44aadd; '>+</span> <span style='color:#008c00; '>1</span>
+
+            <span style='color:#696969; '># get the latest TimeDate table by version</span>
+            df_TimeDate <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>query_df_from_table_name<span style='color:#808030; '>(</span>TimeDate_str <span style='color:#44aadd; '>+</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>(</span>last_version<span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
+            df_TimeDate <span style='color:#808030; '>=</span> df_TimeDate<span style='color:#808030; '>.</span>set_index<span style='color:#808030; '>(</span><span style='color:#0000e6; '>'date'</span><span style='color:#808030; '>)</span>
+
+            <span style='color:#696969; '># merge the incoming dataframe</span>
+            df_TimeDate <span style='color:#808030; '>=</span> pd<span style='color:#808030; '>.</span>merge<span style='color:#808030; '>(</span>df_TimeDate<span style='color:#808030; '>,</span> df_to_merge<span style='color:#808030; '>,</span> how<span style='color:#808030; '>=</span><span style='color:#0000e6; '>'outer'</span><span style='color:#808030; '>,</span> left_index<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>,</span> right_index<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+            df_TimeDate<span style='color:#808030; '>.</span>fillna<span style='color:#808030; '>(</span><span style='color:#008000; '>0.0</span><span style='color:#808030; '>,</span> inplace<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+            df_TimeDate<span style='color:#808030; '>.</span>reset_index<span style='color:#808030; '>(</span>inplace<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+            df_TimeDate<span style='color:#808030; '>.</span>rename<span style='color:#808030; '>(</span><span style='color:#800080; '>{</span><span style='color:#0000e6; '>'index'</span><span style='color:#808030; '>:</span> <span style='color:#0000e6; '>'date'</span><span style='color:#800080; '>}</span><span style='color:#808030; '>,</span> axis<span style='color:#808030; '>=</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span> inplace<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+
+            <span style='color:#696969; '># create a new time month df</span>
+            df_TimeMonth <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>_new_time_month_df<span style='color:#808030; '>(</span>df_TimeDate<span style='color:#808030; '>,</span> method<span style='color:#808030; '>)</span>
+
+            <span style='color:#696969; '># insert both of the new dataframes</span>
+            self<span style='color:#808030; '>.</span>insert_df_as_table<span style='color:#808030; '>(</span>df_TimeDate<span style='color:#808030; '>,</span> TimeDate_str <span style='color:#44aadd; '>+</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>(</span>new_version<span style='color:#808030; '>)</span><span style='color:#808030; '>,</span> index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span>
+            self<span style='color:#808030; '>.</span>insert_df_as_table<span style='color:#808030; '>(</span>df_TimeMonth<span style='color:#808030; '>,</span> TimeMonth_str <span style='color:#44aadd; '>+</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>(</span>new_version<span style='color:#808030; '>)</span><span style='color:#808030; '>,</span> index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span>
+
+            self<span style='color:#808030; '>.</span>_update_version<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> merge_df_to_prior_table_and_update_version<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> df_to_merge<span style='color:#808030; '>:</span> pd<span style='color:#808030; '>.</span>DataFrame<span style='color:#808030; '>,</span>
+                                                   method<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>,</span> prior_table_version<span style='color:#808030; '>:</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> <span style='color:#074726; '>None</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            TimeDate_str <span style='color:#808030; '>=</span> <span style='color:#0000e6; '>'aTimeDate_v'</span>
+            TimeMonth_str <span style='color:#808030; '>=</span> <span style='color:#0000e6; '>'aTimeMonth_v'</span>
+            last_version <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>_get_last_version_of_time_tables<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+            new_version <span style='color:#808030; '>=</span> last_version <span style='color:#44aadd; '>+</span> <span style='color:#008c00; '>1</span>
+
+            <span style='color:#696969; '># get the latest TimeDate table by version</span>
+            df_TimeDate <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>query_df_from_table_name<span style='color:#808030; '>(</span>prior_table_version<span style='color:#808030; '>)</span>
+            df_TimeDate <span style='color:#808030; '>=</span> df_TimeDate<span style='color:#808030; '>.</span>set_index<span style='color:#808030; '>(</span><span style='color:#0000e6; '>'date'</span><span style='color:#808030; '>)</span>
+
+            <span style='color:#696969; '># merge the incoming dataframe</span>
+            df_TimeDate <span style='color:#808030; '>=</span> pd<span style='color:#808030; '>.</span>merge<span style='color:#808030; '>(</span>df_TimeDate<span style='color:#808030; '>,</span> df_to_merge<span style='color:#808030; '>,</span> how<span style='color:#808030; '>=</span><span style='color:#0000e6; '>'outer'</span><span style='color:#808030; '>,</span> left_index<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>,</span> right_index<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+            df_TimeDate<span style='color:#808030; '>.</span>fillna<span style='color:#808030; '>(</span><span style='color:#008000; '>0.0</span><span style='color:#808030; '>,</span> inplace<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+            df_TimeDate<span style='color:#808030; '>.</span>reset_index<span style='color:#808030; '>(</span>inplace<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+            df_TimeDate<span style='color:#808030; '>.</span>rename<span style='color:#808030; '>(</span><span style='color:#800080; '>{</span><span style='color:#0000e6; '>'index'</span><span style='color:#808030; '>:</span> <span style='color:#0000e6; '>'date'</span><span style='color:#800080; '>}</span><span style='color:#808030; '>,</span> axis<span style='color:#808030; '>=</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span> inplace<span style='color:#808030; '>=</span><span style='color:#074726; '>True</span><span style='color:#808030; '>)</span>
+
+            <span style='color:#696969; '># create a new time month df</span>
+            df_TimeMonth <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>_new_time_month_df<span style='color:#808030; '>(</span>df_TimeDate<span style='color:#808030; '>,</span> method<span style='color:#808030; '>)</span>
+
+            <span style='color:#696969; '># insert both of the new dataframes</span>
+            self<span style='color:#808030; '>.</span>insert_df_as_table<span style='color:#808030; '>(</span>df_TimeDate<span style='color:#808030; '>,</span> TimeDate_str <span style='color:#44aadd; '>+</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>(</span>new_version<span style='color:#808030; '>)</span><span style='color:#808030; '>,</span> index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span>
+            self<span style='color:#808030; '>.</span>insert_df_as_table<span style='color:#808030; '>(</span>df_TimeMonth<span style='color:#808030; '>,</span> TimeMonth_str <span style='color:#44aadd; '>+</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>(</span>new_version<span style='color:#808030; '>)</span><span style='color:#808030; '>,</span> index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span>
+
+            self<span style='color:#808030; '>.</span>_update_version<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+
+    <span style='color:#800000; font-weight:bold; '>def</span> export_version_to_csv<span style='color:#808030; '>(</span>self<span style='color:#808030; '>,</span> version<span style='color:#808030; '>:</span> <span style='color:#400000; '>int</span><span style='color:#808030; '>)</span> <span style='color:#44aadd; '>-</span><span style='color:#44aadd; '>></span> <span style='color:#074726; '>None</span><span style='color:#808030; '>:</span>
+        <span style='color:#800000; font-weight:bold; '>try</span><span style='color:#808030; '>:</span>
+            TimeDate_str <span style='color:#808030; '>=</span> <span style='color:#0000e6; '>'aTimeDate_v'</span> <span style='color:#44aadd; '>+</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>(</span>version<span style='color:#808030; '>)</span>
+            TimeMonth_str <span style='color:#808030; '>=</span> <span style='color:#0000e6; '>'aTimeMonth_v'</span> <span style='color:#44aadd; '>+</span> <span style='color:#400000; '>str</span><span style='color:#808030; '>(</span>version<span style='color:#808030; '>)</span>
+
+            dfTimeDate <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>query_df_from_table_name<span style='color:#808030; '>(</span>TimeDate_str<span style='color:#808030; '>)</span>
+            dfTimeMonth <span style='color:#808030; '>=</span> self<span style='color:#808030; '>.</span>query_df_from_table_name<span style='color:#808030; '>(</span>TimeMonth_str<span style='color:#808030; '>)</span>
+
+            dfTimeDate<span style='color:#808030; '>.</span>to_csv<span style='color:#808030; '>(</span>CSV_TABLE_DIR <span style='color:#44aadd; '>+</span> <span style='color:#0000e6; '>'csv_table_data/'</span> <span style='color:#44aadd; '>+</span> TimeDate_str <span style='color:#44aadd; '>+</span> <span style='color:#0000e6; '>'.csv'</span><span style='color:#808030; '>,</span> index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span>
+            dfTimeMonth<span style='color:#808030; '>.</span>to_csv<span style='color:#808030; '>(</span>CSV_TABLE_DIR <span style='color:#44aadd; '>+</span> <span style='color:#0000e6; '>'csv_table_data/'</span> <span style='color:#44aadd; '>+</span> TimeMonth_str <span style='color:#44aadd; '>+</span> <span style='color:#0000e6; '>'.csv'</span><span style='color:#808030; '>,</span> index<span style='color:#808030; '>=</span><span style='color:#074726; '>False</span><span style='color:#808030; '>)</span>
+
+        <span style='color:#800000; font-weight:bold; '>except</span> <span style='color:#074726; '>Exception</span> <span style='color:#800000; font-weight:bold; '>as</span> e<span style='color:#808030; '>:</span>
+            connections_logger<span style='color:#808030; '>.</span>error<span style='color:#808030; '>(</span>e<span style='color:#808030; '>.</span>args<span style='color:#808030; '>)</span>
+            connections_logger<span style='color:#808030; '>.</span><span style='color:#074726; '>exception</span><span style='color:#808030; '>(</span>e<span style='color:#808030; '>)</span>
+            <span style='color:#800000; font-weight:bold; '>raise</span>
+</pre>
+<!--Created using ToHtml.com on 2020-12-04 08:26:17 UTC -->
