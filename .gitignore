@@ -3,7 +3,7 @@
 .Rapp.history
 
 # Session Data files
-.RData
+.RDataFiles/
 
 # User-specific files
 .Ruserdata
