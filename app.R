@@ -19,9 +19,11 @@ library(shinydashboard)
 
 
 base_page_to_copy <- tabPanel(
-  title = 'REPLACE ME',
+  title = 'REPLACE ME',  # todo remove base_page_to_copy
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
+        span(),
         h1('BASE PAGE'),
     ),
     div(class = 'section',
@@ -49,10 +51,11 @@ base_page_to_copy <- tabPanel(
 executive_summary <- tabPanel(
   title = 'Executive Summary',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('Executive Summary'),
     ),
-    div(class = 'section',
+    div(class = 'section', # todo remove needed items div from executive_summary
         h4('Needed Items:'),
         includeHTML(path = 'sections/executive_summary/es_requirements.html')
     ),
@@ -63,10 +66,11 @@ executive_summary <- tabPanel(
 desctiption_of_data <- tabPanel(
   title = 'Desc. of Data',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('Description of Data that is Redily Avaiable About the Issue'),
     ),
-    div(class = 'section',
+    div(class = 'section', # todo remove needed items div from description_of_data
         h4('Needed Items:'),
         includeHTML(path = 'sections/description_of_data/dd_requirements.html')
     ),
@@ -82,10 +86,11 @@ desctiption_of_data <- tabPanel(
 analysis_plan <- tabPanel(
   title = 'Analysis Plan',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('Analysis Plan'),
     ),
-    div(class = 'section',
+    div(class = 'section', # todo remove needed items div from analysis_plan
         h4('Needed Items:'),
         includeHTML(path = 'sections/analysis_plan/ap_requirement.html')
     ),
@@ -96,10 +101,11 @@ analysis_plan <- tabPanel(
 expectations <- tabPanel(
   title = 'Expectations',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('Expectations'),
     ),
-    div(class = 'section',
+    div(class = 'section', # todo remove needed items div from expectations
         h4('Needed Items'),
         includeHTML(path = 'sections/expectations/ex_requirements.html')
     ),
@@ -110,10 +116,11 @@ expectations <- tabPanel(
 recomendations <- tabPanel(
   title = 'Recomendations',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('Recomendations'),
     ),
-    div(class = 'section',
+    div(class = 'section', # todo remove needed items div from recomendations
         h4('Needed Items:'),
         includeHTML(path = 'sections/recomendations/re_requirements.html')
     ),
@@ -124,10 +131,11 @@ recomendations <- tabPanel(
 implementation <- tabPanel(
   title = 'Implementation',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('Implementation'),
     ),
-    div(class = 'section',
+    div(class = 'section', # todo remove needed items div from implementation
         h4('Needed Items:'),
         includeHTML(path = 'sections/implementation/im_requirements.html')
     ),
@@ -138,10 +146,11 @@ implementation <- tabPanel(
 next_steps <- tabPanel(
   title = 'Next Steps',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('Next Steps'),
     ),
-    div(class = 'section',
+    div(class = 'section', # todo remove needed items div from next_steps
         h4('Needed Items:'),
         includeHTML(path = 'sections/next_steps/ns_requirements.html')
     ),
@@ -152,10 +161,11 @@ next_steps <- tabPanel(
 references <- tabPanel(
   title = 'References',
   fluidPage(
+    div(class = 'section_head'),
     div(class = 'section',
         h1('References'),
     ),
-    div(class = 'section',
+    div(class = 'section',  # todo remove needed items div from references
         h4('Needed Items:'),
         includeHTML(path = 'sections/references/rf_references.html')
     ),
@@ -167,6 +177,7 @@ ui <- bootstrapPage(
   tags$head(includeCSS('styles.css')),
   navbarPage(theme = shinytheme('flatly'),
              header = tags$head(includeCSS(path = 'styles.css')),
+             position = c('fixed-top'),
              collapsable = FALSE,
              title = "Revenue Forcasting",
              id = 'nav',
