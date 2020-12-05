@@ -135,11 +135,13 @@ analysis_plan <- tabPanel(
         selectInput(inputId = 'ap_plot1_select',
                     label = "Column to plot against income.",
                     selected = NULL,
-                    choices = ap_plot1_cols
+                    choices = ap_plot1_cols,
+                    width = 2500
         ),
         plotOutput(outputId = 'ap_plot1', height = 650)
 
     ),
+    # todo add second exploratory plot here
   ),
 )
 
