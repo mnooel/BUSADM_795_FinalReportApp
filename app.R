@@ -10,6 +10,10 @@
 if (!require(shiny)) install.packages("shiny", repos = "http://cran.us.r-project.org")
 if (!require(shinydashboard)) install.packages("shinydashboard", repos = "http://cran.us.r-project.org")
 if (!require(shinythemes)) install.packages("shinythemes", repos = "http://cran.us.r-project.org")
+if (!require(Hmisc)) install.packages("Himsc", repos = "http://cran.us.r-project.org")
+if (!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+if (!require(ggrepel)) install.packages("ggrepel", repos = "http://cran.us.r-project.org")
+
 
 # import libraries
 library(shinydashboard)
@@ -17,11 +21,13 @@ library(shinydashboard)
 
 # import data
 ap_plot1_data <- read.csv('sections/analysis_plan/data/ap_plot1_data.csv')
+aTimeMonth_v3 <- read.csv(file = 'data/edited_csv_table_dataaTimeMonth_v3.csv')
 ap_plot1_cols <- colnames(ap_plot1_data)
 
 
 ### FUNCTIONS ###
 # functions to plot data
+
 
 ### ANALYSIS PLAN FUNCTIONS ###
 # ap_render_plot1
@@ -34,6 +40,9 @@ ap_render_plot1 <- function(dataframe, column_name) {
   )
   plot
 }
+
+### IMPLEMENTATION PLOTS ###
+source(file = 'sections/implementation/im_script.R')
 
 
 ### SHINY UI ###
@@ -164,6 +173,18 @@ implementation <- tabPanel(
         h4('Needed Items:'),
         includeHTML(path = 'sections/implementation/im_requirements.html')
     ),
+    div(class = 'section', # todo address header issue
+        includeHTML(path = 'sections/implementation/im_body1.html')
+    ),
+    div(class = 'section',
+        selectInput(inputId = 'im_plot1_select',
+                    label = "Outlier Removal Discovery Sequence",
+                    selected = NULL,
+                    choices = im_plot1_choices,
+                    width = 2500
+        ),
+        plotOutput(outputId = 'im_plot1', height = 650),
+    ),
   ),
 )
 
@@ -273,6 +294,12 @@ server <- function(input, output) {
     show(plot)
   })
 
+  ### implementation ###
+  #im_plot1
+  output$im_plot1 <- renderPlot({
+    plot <- im_render_plot1(aTimeMonth_v3, input$im_plot1_select)
+    show(plot)
+  })
 }
 
 shinyApp(ui, server)
