@@ -16,27 +16,29 @@ library(shinydashboard)
 
 
 # import data
-data_ap_plt1 <- read.csv('data/edited_csv_table_dataaTimeMonth_v3.csv')
-cols_ap_plt1 <- colnames(data_ap_plt1)
+ap_plot1_data <- read.csv('sections/analysis_plan/data/ap_plot1_data.csv')
+ap_plot1_cols <- colnames(ap_plot1_data)
 
 
 ### FUNCTIONS ###
 # functions to plot data
 
-# general_functions
-
-
-
-# analysis_plan
+### ANALYSIS PLAN FUNCTIONS ###
+# ap_render_plot1
 ap_render_plot1 <- function(dataframe, column_name) {
-  plot <- plot(income ~ eval(as.name(column_name)), dataframe)
-
+  plot <- plot(Income ~ eval(as.name(column_name)),
+               dataframe,
+               main = paste('Income by', column_name),
+               ylab = 'Income',
+               xlab = column_name
+  )
   plot
 }
 
 
 ### SHINY UI ###
 
+# Base Demo Page
 base_page_to_copy <- tabPanel(
   title = 'REPLACE ME',  # todo remove base_page_to_copy
   fluidPage(
@@ -127,144 +129,141 @@ analysis_plan <- tabPanel(
         includeHTML(path = 'sections/analysis_plan/ap_requirement.html')
     ),
     div(class = 'section',
-        includeHTML(path = 'sections/analysis_plan/ap_body_data_exploration1.html')
+        includeHTML(path = 'sections/analysis_plan/ap_body1.html')
     ),
     div(class = 'section',
         selectInput(inputId = 'ap_plot1_select',
                     label = "Column to plot against income.",
                     selected = NULL,
-                    choices = cols_ap_plt1
+                    choices = ap_plot1_cols
         ),
+        plotOutput(outputId = 'ap_plot1', height = 650)
 
+    ),
+  ),
+)
+
+# Expectations
+expectations <- tabPanel(
+  title = 'Expectations',
+  fluidPage(
+    div(class = 'section_head'),
+    div(class = 'section',
+        h1('Expectations'),
+    ),
+    div(class = 'section', # todo remove needed items div from expectations
+        h4('Needed Items'),
+        includeHTML(path = 'sections/expectations/ex_requirements.html')
+    ),
+  ),
+)
+
+# Recomendations
+recomendations <- tabPanel(
+  title = 'Recomendations',
+  fluidPage(
+    div(class = 'section_head'),
+    div(class = 'section',
+        h1('Recomendations'),
+    ),
+    div(class = 'section', # todo remove needed items div from recomendations
+        h4('Needed Items:'),
+        includeHTML(path = 'sections/recomendations/re_requirements.html')
+    ),
+  ),
+)
+
+# Implementation
+implementation <- tabPanel(
+  title = 'Implementation',
+  fluidPage(
+    div(class = 'section_head'),
+    div(class = 'section',
+        h1('Implementation'),
+    ),
+    div(class = 'section', # todo remove needed items div from implementation
+        h4('Needed Items:'),
+        includeHTML(path = 'sections/implementation/im_requirements.html')
+    ),
+  ),
+)
+
+# Next Steps
+next_steps <- tabPanel(
+  title = 'Next Steps',
+  fluidPage(
+    div(class = 'section_head'),
+    div(class = 'section',
+        h1('Next Steps'),
+    ),
+    div(class = 'section', # todo remove needed items div from next_steps
+        h4('Needed Items:'),
+        includeHTML(path = 'sections/next_steps/ns_requirements.html')
+    ),
+  ),
+)
+
+# References
+references <- tabPanel(
+  title = 'References',
+  fluidPage(
+    div(class = 'section_head'),
+    div(class = 'section',
+        h1('References'),
+    ),
+    div(class = 'section',  # todo remove needed items div from references
+        h4('Needed Items:'),
+        includeHTML(path = 'sections/references/rf_references.html')
     ),
     div(class = 'section',
-        plotOutput(outputId = 'ap_plot1', height = 650)
-        ),
+        includeHTML(path = 'sections/references/rf_body1.html')
     ),
+  ),
+)
+
+
+ui <- bootstrapPage(
+  tags$head(includeCSS('styles.css')),
+  navbarPage(theme = shinytheme('flatly'),
+             header = tags$head(includeCSS(path = 'styles.css')),
+             position = 'fixed-top',
+             collapsable = FALSE,
+             title = "Revenue Forcasting",
+             id = 'nav',
+             base_page_to_copy, # todo remove base_page_to_copy
+             introduction,
+             executive_summary,
+             desctiption_of_data,
+             analysis_plan,
+             expectations,
+             recomendations,
+             implementation,
+             next_steps,
+             references
+             # no trailing comma
   )
+)
 
-  # Expectations
-  expectations <- tabPanel(
-    title = 'Expectations',
-    fluidPage(
-      div(class = 'section_head'),
-      div(class = 'section',
-          h1('Expectations'),
-      ),
-      div(class = 'section', # todo remove needed items div from expectations
-          h4('Needed Items'),
-          includeHTML(path = 'sections/expectations/ex_requirements.html')
-      ),
-    ),
-  )
+### SHINY SERVER ###
 
-  # Recomendations
-  recomendations <- tabPanel(
-    title = 'Recomendations',
-    fluidPage(
-      div(class = 'section_head'),
-      div(class = 'section',
-          h1('Recomendations'),
-      ),
-      div(class = 'section', # todo remove needed items div from recomendations
-          h4('Needed Items:'),
-          includeHTML(path = 'sections/recomendations/re_requirements.html')
-      ),
-    ),
-  )
+server <- function(input, output) {
 
-  # Implementation
-  implementation <- tabPanel(
-    title = 'Implementation',
-    fluidPage(
-      div(class = 'section_head'),
-      div(class = 'section',
-          h1('Implementation'),
-      ),
-      div(class = 'section', # todo remove needed items div from implementation
-          h4('Needed Items:'),
-          includeHTML(path = 'sections/implementation/im_requirements.html')
-      ),
-    ),
-  )
+  set.seed(122)
+  histdata <- rnorm(100)
 
-  # Next Steps
-  next_steps <- tabPanel(
-    title = 'Next Steps',
-    fluidPage(
-      div(class = 'section_head'),
-      div(class = 'section',
-          h1('Next Steps'),
-      ),
-      div(class = 'section', # todo remove needed items div from next_steps
-          h4('Needed Items:'),
-          includeHTML(path = 'sections/next_steps/ns_requirements.html')
-      ),
-    ),
-  )
+  output$ex_plot <- renderPlot({
+    data <- histdata[seq_len(input$ex_slider)]
+    plot <- hist(data)
+    show(plot)
+  })
 
-  # References
-  references <- tabPanel(
-    title = 'References',
-    fluidPage(
-      div(class = 'section_head'),
-      div(class = 'section',
-          h1('References'),
-      ),
-      div(class = 'section',  # todo remove needed items div from references
-          h4('Needed Items:'),
-          includeHTML(path = 'sections/references/rf_references.html')
-      ),
-      div(class = 'section',
-          includeHTML(path = 'sections/references/rf_body1.html')
-      ),
-    ),
-  )
+  ### analysis_plan ###
+  #ap_plot1
+  output$ap_plot1 <- renderPlot({
+    plot <- ap_render_plot1(ap_plot1_data, input$ap_plot1_select)
+    show(plot)
+  })
 
+}
 
-  ui <- bootstrapPage(
-    tags$head(includeCSS('styles.css')),
-    navbarPage(theme = shinytheme('flatly'),
-               header = tags$head(includeCSS(path = 'styles.css')),
-               position = 'fixed-top',
-               collapsable = FALSE,
-               title = "Revenue Forcasting",
-               id = 'nav',
-               base_page_to_copy, # todo remove base_page_to_copy
-               introduction,
-               executive_summary,
-               desctiption_of_data,
-               analysis_plan,
-               expectations,
-               recomendations,
-               implementation,
-               next_steps,
-               references
-               # no trailing comma
-    )
-  )
-
-  ### SHINY SERVER ###
-
-  server <- function(input, output) {
-
-    set.seed(122)
-    histdata <- rnorm(100)
-
-    output$ex_plot <- renderPlot({
-      data <- histdata[seq_len(input$ex_slider)]
-      plot <- hist(data)
-      show(plot)
-    })
-
-    ### analysis_plan ###
-    #ap_plot1
-    output$ap_plot1 <- renderPlot({
-      data <- read.csv(file = 'data/edited_csv_table_dataaTimeMonth_v3.csv')
-      plot <- ap_render_plot1(data, input$ap_plot1_select)
-      show(plot)
-    })
-
-  }
-
-  shinyApp(ui, server)
+shinyApp(ui, server)
