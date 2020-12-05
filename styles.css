@@ -50,6 +50,11 @@ div.html_content_centered {
   font-size: 14pt;
 }
 
+img.intro_icons {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 /* Customize fonts */
 body, label, input, button, select, p {
   font-family: 'Helvetica Neue', Helvetica;
