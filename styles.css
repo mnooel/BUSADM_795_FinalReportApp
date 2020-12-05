@@ -35,6 +35,17 @@ div.html_content {
   overflow: hidden;
 }
 
+div.html_content_centered {
+  text-align: center;
+  margin: auto;
+  padding-top: 15px;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
 .irs-text {
   font-size: 14pt;
 }
