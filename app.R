@@ -11,13 +11,34 @@ if (!require(shiny)) install.packages("shiny", repos = "http://cran.us.r-project
 if (!require(shinydashboard)) install.packages("shinydashboard", repos = "http://cran.us.r-project.org")
 if (!require(shinythemes)) install.packages("shinythemes", repos = "http://cran.us.r-project.org")
 
-# import data
+# import libraries
 library(shinydashboard)
+
+
+# import data
+ap_plot1_data <- read.csv('sections/analysis_plan/data/ap_plot1_data.csv')
+ap_plot1_cols <- colnames(ap_plot1_data)
+
+
+### FUNCTIONS ###
+# functions to plot data
+
+### ANALYSIS PLAN FUNCTIONS ###
+# ap_render_plot1
+ap_render_plot1 <- function(dataframe, column_name) {
+  plot <- plot(Income ~ eval(as.name(column_name)),
+               dataframe,
+               main = paste('Income by', column_name),
+               ylab = 'Income',
+               xlab = column_name
+  )
+  plot
+}
 
 
 ### SHINY UI ###
 
-
+# Base Demo Page
 base_page_to_copy <- tabPanel(
   title = 'REPLACE ME',  # todo remove base_page_to_copy
   fluidPage(
@@ -43,6 +64,20 @@ base_page_to_copy <- tabPanel(
         h4('HEADING 2'),
         includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
     )
+  ),
+)
+
+# Introduction
+introduction <- tabPanel(
+  title = 'Intoduction',
+  fluidPage(
+    div(class = 'section_head'),
+    div(class = 'section',
+        h1('Introduction'),
+    ),
+    div(class = 'section',
+        includeHTML(path = 'sections/introduction/int_body1.html')
+    ),
   ),
 )
 
@@ -92,6 +127,23 @@ analysis_plan <- tabPanel(
     div(class = 'section', # todo remove needed items div from analysis_plan
         h4('Needed Items:'),
         includeHTML(path = 'sections/analysis_plan/ap_requirement.html')
+    ),
+    div(class = 'section',
+        includeHTML(path = 'sections/analysis_plan/ap_body1.html')
+    ),
+    div(class = 'section',
+        selectInput(inputId = 'ap_plot1_select',
+                    label = "Column to plot against income.",
+                    selected = NULL,
+                    choices = ap_plot1_cols,
+                    width = 2500
+        ),
+        plotOutput(outputId = 'ap_plot1', height = 650)
+
+    ),
+    # todo add second exploratory plot here
+    div(class = 'section',
+        includeHTML(path = 'sections/analysis_plan/ap_body_2.html')
     ),
   ),
 )
@@ -184,6 +236,7 @@ ui <- bootstrapPage(
              title = "Revenue Forcasting",
              id = 'nav',
              base_page_to_copy, # todo remove base_page_to_copy
+             introduction,
              executive_summary,
              desctiption_of_data,
              analysis_plan,
@@ -209,6 +262,12 @@ server <- function(input, output) {
     show(plot)
   })
 
+  ### analysis_plan ###
+  #ap_plot1
+  output$ap_plot1 <- renderPlot({
+    plot <- ap_render_plot1(ap_plot1_data, input$ap_plot1_select)
+    show(plot)
+  })
 
 }
 

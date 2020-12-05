@@ -38,7 +38,7 @@ div.html_content {
 div.html_content_centered {
   text-align: center;
   margin: auto;
-  padding-top: 15px;
+  padding-top: 1px;
   width: 100%;
   left: 0;
   right: 0;
