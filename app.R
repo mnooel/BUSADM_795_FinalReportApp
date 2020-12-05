@@ -38,34 +38,6 @@ ap_render_plot1 <- function(dataframe, column_name) {
 
 ### SHINY UI ###
 
-# Base Demo Page
-base_page_to_copy <- tabPanel(
-  title = 'REPLACE ME',  # todo remove base_page_to_copy
-  fluidPage(
-    div(class = 'section_head'),
-    div(class = 'section',
-        span(),
-        h1('BASE PAGE'),
-    ),
-    div(class = 'section',
-        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
-    ),
-    div(class = 'section',
-        sliderInput(inputId = 'ex_slider',
-                    label = 'Number of observations',
-                    1,
-                    100,
-                    50,
-                    width = 2000),
-        plotOutput('ex_plot', height = 650),
-    )
-    ,
-    div(class = 'section',
-        h4('HEADING 2'),
-        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
-    )
-  ),
-)
 
 # Introduction
 introduction <- tabPanel(
@@ -90,8 +62,10 @@ executive_summary <- tabPanel(
         h1('Executive Summary'),
     ),
     div(class = 'section', # todo remove needed items div from executive_summary
-        h4('Needed Items:'),
         includeHTML(path = 'sections/executive_summary/es_requirements.html')
+    ),
+    div(class = 'section',
+        includeHTML(path = 'sections/executive_summary/es_body1.html')
     ),
   ),
 )
@@ -109,7 +83,7 @@ desctiption_of_data <- tabPanel(
         includeHTML(path = 'sections/description_of_data/dd_requirements.html')
     ),
     div(class = 'section',
-        h4('Database Connection Engine'),
+        h4('Database Connection Engines'),
         includeHTML(path = 'sections/description_of_data/database_engines.html')
     ),
 
@@ -226,6 +200,35 @@ references <- tabPanel(
   ),
 )
 
+# Base Demo Page
+base_page_to_copy <- tabPanel(
+  title = 'REPLACE ME',  # todo remove base_page_to_copy
+  fluidPage(
+    div(class = 'section_head'),
+    div(class = 'section',
+        span(),
+        h1('BASE PAGE'),
+    ),
+    div(class = 'section',
+        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
+    ),
+    div(class = 'section',
+        sliderInput(inputId = 'ex_slider',
+                    label = 'Number of observations',
+                    1,
+                    100,
+                    50,
+                    width = 2000),
+        plotOutput('ex_plot', height = 650),
+    )
+    ,
+    div(class = 'section',
+        h4('HEADING 2'),
+        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
+    )
+  ),
+)
+
 
 ui <- bootstrapPage(
   tags$head(includeCSS('styles.css')),
@@ -235,7 +238,7 @@ ui <- bootstrapPage(
              collapsable = FALSE,
              title = "Revenue Forcasting",
              id = 'nav',
-             base_page_to_copy, # todo remove base_page_to_copy
+             #base_page_to_copy, # todo remove base_page_to_copy
              introduction,
              executive_summary,
              desctiption_of_data,
@@ -244,7 +247,8 @@ ui <- bootstrapPage(
              recomendations,
              implementation,
              next_steps,
-             references
+             references,
+             base_page_to_copy
              # no trailing comma
   )
 )
