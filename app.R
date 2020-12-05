@@ -142,6 +142,9 @@ analysis_plan <- tabPanel(
 
     ),
     # todo add second exploratory plot here
+    div(class = 'section',
+        includeHTML(path = 'sections/analysis_plan/ap_body_2.html')
+    ),
   ),
 )
 

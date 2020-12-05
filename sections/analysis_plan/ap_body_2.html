@@ -1,0 +1,35 @@
+<!-- analysis_plan.data_exploration1 -->
+<div class="html_content">
+    <h3>Model Building</h3>
+    <p>
+        Our exploratory analysis indicated that our independent variables have linear relationships to income. The
+        strength of the linear relationship varied but we feel it is reasonable to use linear regression. Given that we
+        are analyzing a time series we decided to use lagging predictor variables in our analysis as well as indicator
+        variables for each month of the year. The indicator variables will help account for seasonality in the time
+        series.
+    </p>
+    <h3>Modeling Technique</h3>
+    <p>
+        We will use three models to predict monthly income at Core Creative. The models to be used are two linear
+        regression models and a neural network. For the first linear regression we will use a single lagging predictor
+        variable and indicator variables for each month of the year. The second linear regression will introduce several
+        additional lagging variables that are selected based on best subsets analysis. The neural network model will use
+        the same variables as the second linear regression model. Below is an overview of the modeling techniques we
+        selected.
+    </p>
+    <h3>Linear Regression</h3>
+    <p>
+        The assumptions of linear regression include:
+    </p>
+    <ol>
+        <li>Linear relationship: It is assumed that a linear relationship exists between the dependent and independent variables.</li>
+        <li>Independence: There is no correlation between consecutive residuals in time series data.</li>
+        <li>Homoscedasticity: The residuals have constant variance at every level of x.</li>
+        <li>Normality: The residuals of the model are normally distributed.</li>
+    </ol>
+    <h3>Neural Network</h3>
+    <p>
+        Todo: neural network content needed here
+    </p>
+    <!-- todo neural network items needed here -->
+</div>
