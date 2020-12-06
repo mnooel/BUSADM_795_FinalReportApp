@@ -21,17 +21,11 @@ library(shinydashboard)
 
 
 # import data
-ap_plot1_data <- read.csv('sections/analysis_plan/data/ap_plot1_data.csv')
 aTimeMonth_v3 <- read.csv(file = 'data/edited_csv_table_dataaTimeMonth_v3.csv')
-ap_plot1_cols <- colnames(ap_plot1_data)
-
-
-### FUNCTIONS ###
-# functions to plot data
 
 
 ### ANALYSIS PLAN FUNCTIONS ###
-# ap_render_plot1
+# ap_render_plot1 # todo move to analysis plan
 ap_render_plot1 <- function(dataframe, column_name) {
   plot <- plot(Income ~ eval(as.name(column_name)),
                dataframe,
