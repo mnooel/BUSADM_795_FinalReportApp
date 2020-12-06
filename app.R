@@ -169,33 +169,57 @@ implementation <- tabPanel(
     div(class = 'section',
         h1('Implementation'),
     ),
+    # requirements section
     div(class = 'section', # todo remove needed items div from implementation
         h4('Needed Items:'),
         includeHTML(path = 'sections/implementation/im_requirements.html')
     ),
-    div(class = 'section', # todo address header issue
+    # lm_body1.html
+    div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body1.html')
     ),
+    # lm_plot1
     div(class = 'section',
         selectInput(inputId = 'im_plot1_select',
-                    label = "Outlier Removal Discovery Sequence",
+                    label = "Outlier Removal Discovery",
                     selected = NULL,
                     choices = im_plot1_choices,
                     width = '100%'
         ),
         plotOutput(outputId = 'im_plot1', height = 650),
     ),
+    # lm_body2.html
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body2.html')
     ),
+    # lm_plot2
     div(class = 'section',
         selectInput(inputId = 'im_plot2_select',
-                    label = "Outlier Removal Discovery Sequence",
+                    label = "New Title here",  # todo new title here
                     selected = NULL,
                     choices = im_plot2_choices,
                     width = '100%'
         ),
         plotOutput(outputId = 'im_plot2', height = 650),
+    ),
+    # lm_body3.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body3.html')
+    ),
+    # todo add console output here
+    # im_body4.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body4.html')
+    ),
+    # lm_plot3
+    div(class = 'section',
+        selectInput(inputId = 'im_plot3_select',
+                    label = "Modal Diagnostic Plots",
+                    selected = NULL,
+                    choices = im_plot3_choices,
+                    width = '100%'
+        ),
+        plotOutput(outputId = 'im_plot3', height = 650),
     ),
   ),
 )
@@ -315,6 +339,11 @@ server <- function(input, output) {
   #im_plot2
   output$im_plot2 <- renderPlot({
     plot <- im_render_plot2(aTimeMonth_v3, input$im_plot2_select)
+    show(plot)
+  })
+  #im_plot3
+  output$im_plot3 <- renderPlot({
+    plot <- im_render_plot3(aTimeMonth_v3, input$im_plot3_select)
     show(plot)
   })
 
