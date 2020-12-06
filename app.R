@@ -188,6 +188,15 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body2.html')
     ),
+    div(class = 'section',
+        selectInput(inputId = 'im_plot2_select',
+                    label = "Outlier Removal Discovery Sequence",
+                    selected = NULL,
+                    choices = im_plot2_choices,
+                    width = '100%'
+        ),
+        plotOutput(outputId = 'im_plot2', height = 650),
+    ),
   ),
 )
 
@@ -303,6 +312,12 @@ server <- function(input, output) {
     plot <- im_render_plot1(aTimeMonth_v3, input$im_plot1_select)
     show(plot)
   })
+  #im_plot2
+  output$im_plot2 <- renderPlot({
+    plot <- im_render_plot2(aTimeMonth_v3, input$im_plot2_select)
+    show(plot)
+  })
+
 }
 
 shinyApp(ui, server)

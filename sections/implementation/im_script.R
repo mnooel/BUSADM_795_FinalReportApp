@@ -5,7 +5,7 @@
 
 ### im_plot1 ###
 
-# im_plot1_a Time_Series_Analysis.R Lines 2-6
+# im_plot1_choices
 im_plot1_choice1 <- '1. Visualization of Core Creative Monthly Income from Jan 2013 to October 2020'
 im_plot1_choice2 <- '2. Income v Time - Idenficication of Outlier'
 im_plot1_choice3 <- '3. Income v Time - w/o Outlier'
@@ -66,3 +66,43 @@ im_render_plot1 <- function(dataframe, choice) {
     plot
   }
 }
+
+
+### im_plot2 ###
+
+# im_plot2_a Time_Series_Analysis.R Lines 2-6
+im_plot2_choice1 <- 'ACF of Income'
+im_plot2_choice2 <- 'PACF'
+
+im_plot2_choices <- list(
+  im_plot2_choice1, im_plot2_choice2
+)
+
+# im_render_plot2_choice1 Time_Series_Analysis.R Line 53
+im_render_plot2_choice1 <- function(dataframe) {
+  dataframe2 <- dataframe[-64,]
+  acf_plot <- acf(dataframe2$income, main = "ACF") # afc_4 golden
+  acf_plot
+}
+
+# im_render_plot2_choice2 Time_Series_Analysis.R Line 55
+im_render_plot2_choice2 <- function(dataframe) {
+  dataframe2 <- dataframe[-64,]
+  pacf_plot <- pacf(dataframe2$income, main = "PACF") # pafc_1 golden
+  pacf_plot
+}
+
+# im_render_plot2
+im_render_plot2 <- function(dataframe, choice) {
+  if (choice == im_plot2_choice1) {
+    plot <- im_render_plot2_choice1(dataframe)
+    plot
+  }
+  if (choice == im_plot2_choice2) {
+    plot <- im_render_plot2_choice2(dataframe)
+    plot
+  }
+
+}
+
+
