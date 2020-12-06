@@ -60,7 +60,7 @@ pacf(dataframe2$income, main = "PACF") # pafc_1 golden
 #use Hmisc library to add lag 1 predictor variable
 library(Hmisc)
 dataframe2$income_1 <- Lag(dataframe2$income, shift = 1) # dataframe3
-lagout <- lm(income ~ income_1, data = dataframe2)
+lagout <- lm(income ~ income_1, data = dataframe2) # lagout
 summary(lagout)
 #model diagnostics
 ts.plot(residuals(lagout))
@@ -94,7 +94,7 @@ Oct <- as.numeric(dataframe2$month_name == "Oct")
 Nov <- as.numeric(dataframe2$month_name == "Nov")
 Dec <- as.numeric(dataframe2$month_name == "Dec")
 #combine with dataframe
-dataframe2 <- cbind(dataframe2, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec) #created with df3 fx
+dataframe2 <- cbind(dataframe2, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec)
 str(dataframe2)
 outind <- lm(income ~ t2 + Jan + Feb + Mar + Apr + May + Jun + Jul + 
                Aug + Sep + Oct + Nov, data = dataframe2)
@@ -106,8 +106,8 @@ acf(residuals(outind), main = "Residuals")
 pacf(residuals(outind), main = "Residuals")
 #looks like a significant autocorrelation at t-1
 library(Hmisc)
-dataframe2$income_1 <- Lag(dataframe2$income, shift = 1)
-lagout2 <- lm(income ~ income_1 + t2 + Jan + Feb + Mar +
+dataframe2$income_1 <- Lag(dataframe2$income, shift = 1)  # dataframe3
+lagout2 <- lm(income ~ income_1 + t2 + Jan + Feb + Mar +  # lagout2
                 Apr + May + Jun + Jul + Aug + Sep + Oct +
                 Nov, data = dataframe2)
 summary(lagout2)
@@ -122,7 +122,7 @@ plot(fitted(lagout2) ~ residuals(lagout2), xlab = "Residuals", ylab = "Fitted")
 #looks approximately normal
 #next need to compare fitted to actual,
 
-dataframe2$fitted <- append(NA, fitted(lagout2))
+dataframe2$fitted <- append(NA, fitted(lagout2)) #dataframe4
 fitted_ <- ts(dataframe2$fitted)
 income_ <- ts(dataframe2$income)
 fitted_[2:93]
