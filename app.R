@@ -210,7 +210,7 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body_console1.html')
     ),
-    # im_body4.html
+    # im_body4.html: Model Diagnostics
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body4.html')
     ),
@@ -224,6 +224,22 @@ implementation <- tabPanel(
                     width = '100%'
         ),
         plotOutput(outputId = 'im_plot3', height = 650),
+    ),
+    # im_body5.html: Plot Original vs Fitted Values
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body5.html')
+    ),
+    # im_plot4
+    div(class = 'section',
+        plotOutput(outputId = 'im_plot4', height = 650),
+    ),
+    # im_body6.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body6.html')
+    ),
+    # im_body7.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body7.html')
     ),
   ),
 )
@@ -349,6 +365,12 @@ server <- function(input, output) {
   #im_plot3
   output$im_plot3 <- renderPlot({
     plot <- im_render_plot3(aTimeMonth_v3, input$im_plot3_select)
+    show(plot)
+  })
+
+  #im_plot4
+  output$im_plot4 <- renderPlot({
+    plot <- im_render_plot4(aTimeMonth_v3)
     show(plot)
   })
 
