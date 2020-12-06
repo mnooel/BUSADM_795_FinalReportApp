@@ -119,7 +119,7 @@ analysis_plan <- tabPanel(
                     label = "Column to plot against income.",
                     selected = NULL,
                     choices = ap_plot1_cols,
-                    width = 2500
+                    width = "100%"
         ),
         plotOutput(outputId = 'ap_plot1', height = 650)
 
@@ -181,9 +181,12 @@ implementation <- tabPanel(
                     label = "Outlier Removal Discovery Sequence",
                     selected = NULL,
                     choices = im_plot1_choices,
-                    width = 2500
+                    width = '100%'
         ),
         plotOutput(outputId = 'im_plot1', height = 650),
+    ),
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body2.html')
     ),
   ),
 )
@@ -239,7 +242,7 @@ base_page_to_copy <- tabPanel(
                     1,
                     100,
                     50,
-                    width = 2000),
+                    width = '100%'),
         plotOutput('ex_plot', height = 650),
     )
     ,
