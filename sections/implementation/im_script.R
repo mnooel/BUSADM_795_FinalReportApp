@@ -189,7 +189,7 @@ im_plot3_choice5 <- 'im_plot3_choice5'
 im_plot3_choice6 <- 'im_plot3_choice6'
 
 im_plot3_choices <- list(
-  im_plot3_choice1, im_plot3_choice2 , im_plot3_choice3, im_plot3_choice4, im_plot3_choice5, im_plot3_choice6
+  im_plot3_choice1, im_plot3_choice2, im_plot3_choice3, im_plot3_choice4, im_plot3_choice5, im_plot3_choice6
 )
 
 
@@ -270,4 +270,25 @@ im_render_plot3 <- function(dataframe, choice) {
     plot <- im_render_plot3_choice6(dataframe)
     plot
   }
+}
+
+### im_plot4 ###
+
+# dataframe to dataframe4
+im_dataframe4 <- function(dataframe) {
+  dataframe3 <- im_dataframe3(dataframe)
+  dataframe4 <- im_dataframe3(dataframe)
+  lagout2 <- im_lagout2(dataframe3)
+  dataframe4$fitted <- append(NA, fitted(lagout2))
+  dataframe4
+}
+
+im_render_plot4 <- function(dataframe) {
+  dataframe4 <- im_dataframe4(dataframe)
+  fitted_ <- ts(dataframe4$fitted)
+  income_ <- ts(dataframe4$income)
+  plot <- ts.plot(income_, fitted_, lty = c(2, 1), col = c("black", "blue"))
+  legend("topleft", c("Original", "Fitted"), lty = c(2, 1),
+         col = c("black", "blue"), cex = 0.75)
+  plot
 }
