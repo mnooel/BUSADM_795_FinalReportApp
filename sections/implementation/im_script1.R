@@ -283,6 +283,7 @@ im_dataframe4 <- function(dataframe) {
   dataframe4
 }
 
+# im_render_plot4
 im_render_plot4 <- function(dataframe) {
   dataframe4 <- im_dataframe4(dataframe)
   fitted_ <- ts(dataframe4$fitted)
