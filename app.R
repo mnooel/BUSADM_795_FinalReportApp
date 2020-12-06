@@ -22,6 +22,7 @@ library(shinydashboard)
 
 # import data
 aTimeMonth_v3 <- read.csv(file = 'data/edited_csv_table_dataaTimeMonth_v3.csv')
+Formal_aTimeMonth_v3 <- read.csv(file = 'data/formal_csv_table_dataaTimeMonth_v3.csv')
 
 
 ### ANALYSIS PLAN FUNCTIONS ###
@@ -36,8 +37,9 @@ ap_render_plot1 <- function(dataframe, column_name) {
   plot
 }
 
-### IMPLEMENTATION PLOTS ###
+### SCRIPTS ###
 source(file = 'sections/implementation/im_script1.R')
+source(file = 'sections/implementation/im_script2.R')
 
 
 ### SHINY UI ###
@@ -113,7 +115,7 @@ analysis_plan <- tabPanel(
         selectInput(inputId = 'ap_plot1_select',
                     label = "Column to plot against income.",
                     selected = NULL,
-                    choices = ap_plot1_cols,
+                    choices = colnames(Formal_aTimeMonth_v3),
                     width = "100%"
         ),
         plotOutput(outputId = 'ap_plot1', height = 650)
@@ -237,6 +239,9 @@ implementation <- tabPanel(
         includeHTML(path = 'sections/implementation/im_body7.html')
     ),
     # im_plot5
+    div(class = 'section',
+        plotOutput(outputId = 'im_plot5', height = 650),
+    ),
     # im_body8.html
     # im_body_console2.html
     # im_body9.html
@@ -346,7 +351,7 @@ server <- function(input, output) {
   ### analysis_plan ###
   #ap_plot1
   output$ap_plot1 <- renderPlot({
-    plot <- ap_render_plot1(ap_plot1_data, input$ap_plot1_select)
+    plot <- ap_render_plot1(Formal_aTimeMonth_v3, input$ap_plot1_select)
     show(plot)
   })
 
@@ -371,6 +376,12 @@ server <- function(input, output) {
   #im_plot4
   output$im_plot4 <- renderPlot({
     plot <- im_render_plot4(aTimeMonth_v3)
+    show(plot)
+  })
+
+  #im_plot5
+  output$im_plot5 <- renderPlot({
+    plot <- im_render_plot5(aTimeMonth_v3)
     show(plot)
   })
 
