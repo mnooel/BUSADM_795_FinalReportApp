@@ -1,0 +1,50 @@
+
+<pre style="color:#000020;background:#f6f8ff;">Call<span style="color:#308080; ">:</span>
+lm<span style="color:#308080; ">(</span>formula <span style="color:#308080; ">=</span> income <span style="color:#308080; ">~</span> income<span style="color:#308080; ">_</span>1 <span style="color:#308080; ">+</span> billable<span style="color:#308080; ">_</span>amount<span style="color:#308080; ">_</span>1 <span style="color:#308080; ">+</span> number<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>new<span style="color:#308080; ">_</span>biz<span style="color:#308080; ">_</span>time<span style="color:#308080; ">_</span>entries<span style="color:#308080; ">_</span>1 <span style="color:#308080; ">+</span>
+    month <span style="color:#308080; ">+</span> cost<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>goods<span style="color:#308080; ">_</span>sold<span style="color:#308080; ">_</span>1 <span style="color:#308080; ">+</span> Oct<span style="color:#308080; ">,</span> data <span style="color:#308080; ">=</span> dataframe2<span style="color:#008c00; ">.</span>omit<span style="color:#308080; ">)</span>
+
+Residuals<span style="color:#308080; ">:</span>
+    Min      1Q  Median      3Q     Max
+<span style="color:#308080; ">-</span><span style="color:#008c00; ">253809</span>  <span style="color:#308080; ">-</span><span style="color:#008c00; ">55866</span>  <span style="color:#308080; ">-</span><span style="color:#008c00; ">13783</span>   <span style="color:#008c00; ">53953</span>  <span style="color:#008c00; ">238789</span>
+
+Coefficients<span style="color:#308080; ">:</span>
+                                   Estimate
+<span style="color:#308080; ">(</span>Intercept<span style="color:#308080; ">)</span>                       <span style="color:#008c00; ">6.204e+05</span>
+income<span style="color:#308080; ">_</span>1                         <span style="color:#308080; ">-</span><span style="color:#008c00; ">1.307e-01</span>
+billable<span style="color:#308080; ">_</span>amount<span style="color:#308080; ">_</span>1                 <span style="color:#008c00; ">5.439e-01</span>
+number<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>new<span style="color:#308080; ">_</span>biz<span style="color:#308080; ">_</span>time<span style="color:#308080; ">_</span>entries<span style="color:#308080; ">_</span>1 <span style="color:#308080; ">-</span><span style="color:#008c00; ">1.744e+04</span>
+month                             <span style="color:#008c00; ">2.297e+03</span>
+cost<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>goods<span style="color:#308080; ">_</span>sold<span style="color:#308080; ">_</span>1             <span style="color:#308080; ">-</span><span style="color:#008c00; ">5.638e-01</span>
+Oct                               <span style="color:#008c00; ">1.984e+05</span>
+                                 Std<span style="color:#308080; ">.</span> Error
+<span style="color:#308080; ">(</span>Intercept<span style="color:#308080; ">)</span>                       <span style="color:#008c00; ">1.248e+05</span>
+income<span style="color:#308080; ">_</span>1                          <span style="color:#008c00; ">2.226e-01</span>
+billable<span style="color:#308080; ">_</span>amount<span style="color:#308080; ">_</span>1                 <span style="color:#008c00; ">2.424e-01</span>
+number<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>new<span style="color:#308080; ">_</span>biz<span style="color:#308080; ">_</span>time<span style="color:#308080; ">_</span>entries<span style="color:#308080; ">_</span>1  <span style="color:#008c00; ">5.787e+03</span>
+month                             <span style="color:#008c00; ">6.835e+02</span>
+cost<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>goods<span style="color:#308080; ">_</span>sold<span style="color:#308080; ">_</span>1              <span style="color:#008c00; ">2.990e-01</span>
+Oct                               <span style="color:#008c00; ">3.849e+04</span>
+                                 t value
+<span style="color:#308080; ">(</span>Intercept<span style="color:#308080; ">)</span>                        <span style="color:#008c00; ">4.972</span>
+income<span style="color:#308080; ">_</span>1                          <span style="color:#308080; ">-</span><span style="color:#008c00; ">0.587</span>
+billable<span style="color:#308080; ">_</span>amount<span style="color:#308080; ">_</span>1                  <span style="color:#008c00; ">2.244</span>
+number<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>new<span style="color:#308080; ">_</span>biz<span style="color:#308080; ">_</span>time<span style="color:#308080; ">_</span>entries<span style="color:#308080; ">_</span>1  <span style="color:#308080; ">-</span><span style="color:#008c00; ">3.014</span>
+month                              <span style="color:#008c00; ">3.361</span>
+cost<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>goods<span style="color:#308080; ">_</span>sold<span style="color:#308080; ">_</span>1              <span style="color:#308080; ">-</span><span style="color:#008c00; ">1.886</span>
+Oct                                <span style="color:#008c00; ">5.155</span>
+                                 Pr<span style="color:#308080; ">(</span><span style="color:#308080; ">&gt;</span><span style="color:#308080; ">|</span>t<span style="color:#308080; ">|</span><span style="color:#308080; ">)</span>
+<span style="color:#308080; ">(</span>Intercept<span style="color:#308080; ">)</span>                      <span style="color:#008c00; ">3.40e-06</span> <span style="color:#308080; ">*</span><span style="color:#308080; ">*</span><span style="color:#308080; ">*</span>
+income<span style="color:#308080; ">_</span>1                          <span style="color:#008c00; ">0.55872</span>
+billable<span style="color:#308080; ">_</span>amount<span style="color:#308080; ">_</span>1                 <span style="color:#008c00; ">0.02744</span> <span style="color:#308080; ">*</span>
+number<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>new<span style="color:#308080; ">_</span>biz<span style="color:#308080; ">_</span>time<span style="color:#308080; ">_</span>entries<span style="color:#308080; ">_</span>1  <span style="color:#008c00; ">0.00340</span> <span style="color:#308080; ">*</span><span style="color:#308080; ">*</span>
+month                             <span style="color:#008c00; ">0.00116</span> <span style="color:#308080; ">*</span><span style="color:#308080; ">*</span>
+cost<span style="color:#308080; ">_</span>of<span style="color:#308080; ">_</span>goods<span style="color:#308080; ">_</span>sold<span style="color:#308080; ">_</span>1              <span style="color:#008c00; ">0.06274</span> <span style="color:#308080; ">.</span>
+Oct                              <span style="color:#008c00; ">1.63e-06</span> <span style="color:#308080; ">*</span><span style="color:#308080; ">*</span><span style="color:#308080; ">*</span>
+<span style="color:#308080; ">-</span><span style="color:#308080; ">-</span><span style="color:#308080; ">-</span>
+Signif<span style="color:#308080; ">.</span> codes<span style="color:#308080; ">:</span>
+<span style="color:#008c00; ">0</span> <span style="color:#308080; ">*</span><span style="color:#308080; ">*</span><span style="color:#308080; ">*</span>’ <span style="color:#008c00; ">0.001</span> <span style="color:#308080; ">*</span><span style="color:#308080; ">*</span>’ <span style="color:#008c00; ">0.01</span> <span style="color:#308080; ">*</span>’ <span style="color:#008c00; ">0.05</span> <span style="color:#308080; ">.</span>’ <span style="color:#008c00; ">0.1</span>  ’ <span style="color:#008c00; ">1</span>
+
+Residual standard error<span style="color:#308080; ">:</span> <span style="color:#008c00; ">102900</span> on <span style="color:#008c00; ">85</span> degrees of freedom
+Multiple R<span style="color:#308080; ">-</span>squared<span style="color:#308080; ">:</span>  <span style="color:#008c00; ">0.5482</span><span style="color:#308080; ">,</span>	Adjusted R<span style="color:#308080; ">-</span>squared<span style="color:#308080; ">:</span>  <span style="color:#008c00; ">0.5164</span>
+F<span style="color:#308080; ">-</span>statistic<span style="color:#308080; ">:</span> <span style="color:#008c00; ">17.19</span> on <span style="color:#008c00; ">6</span> and <span style="color:#008c00; ">85</span> DF<span style="color:#308080; ">,</span>  p<span style="color:#308080; ">-</span>value<span style="color:#308080; ">:</span> <span style="color:#008c00; ">6.513e-13</span>
+</pre>
