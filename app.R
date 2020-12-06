@@ -13,6 +13,7 @@ if (!require(shinythemes)) install.packages("shinythemes", repos = "http://cran.
 if (!require(Hmisc)) install.packages("Himsc", repos = "http://cran.us.r-project.org")
 if (!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
 if (!require(ggrepel)) install.packages("ggrepel", repos = "http://cran.us.r-project.org")
+if (!require(leaps)) install.packages("leaps", repos = "http://cran.us.r-project.org")
 
 
 # import libraries
@@ -42,7 +43,7 @@ ap_render_plot1 <- function(dataframe, column_name) {
 }
 
 ### IMPLEMENTATION PLOTS ###
-source(file = 'sections/implementation/im_script.R')
+source(file = 'sections/implementation/im_script1.R')
 
 
 ### SHINY UI ###

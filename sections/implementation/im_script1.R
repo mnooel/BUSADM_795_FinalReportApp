@@ -1,4 +1,4 @@
-# Title     : im_script.R
+# Title     : im_script1.R
 # Objective : render plots related to the implentation section
 # Created by: michaelnoel
 # Created on: 12/5/20
