@@ -1,5 +1,5 @@
 #ts plot check for randomness----
-dataframe <- read.csv("data/edited_csv_table_dataaTimeMonth_v3.csv")
+dataframe <- read.csv("data/edited_csv_table_dataaTimeMonth_v3.csv") # dataframe1
 head(dataframe)
 t <- seq(1, 94)
 plot <- ts.plot(dataframe$income, ylab = "Monthly Income in Dollars", xlab="Time")
@@ -32,7 +32,7 @@ qqnorm(residuals(slrout), pch = 19)
 #remove outlier by creating new index
 max(dataframe$income)
 print(dataframe$income)
-dataframe2 <- dataframe[-c(64), ]
+dataframe2 <- dataframe[-c(64), ] # dataframe2
 #redo slr without outlier----
 t2 <- seq(1, 93)
 ts.plot(dataframe2$income, ylab = "Monthly Income in Dollars")
@@ -59,7 +59,7 @@ pacf(dataframe2$income, main = "PACF") # pafc_1 golden
 #PACF suggests using t-l as predictor variable
 #use Hmisc library to add lag 1 predictor variable
 library(Hmisc)
-dataframe2$income_1 <- Lag(dataframe2$income, shift = 1)
+dataframe2$income_1 <- Lag(dataframe2$income, shift = 1) # dataframe3
 lagout <- lm(income ~ income_1, data = dataframe2)
 summary(lagout)
 #model diagnostics
@@ -94,7 +94,7 @@ Oct <- as.numeric(dataframe2$month_name == "Oct")
 Nov <- as.numeric(dataframe2$month_name == "Nov")
 Dec <- as.numeric(dataframe2$month_name == "Dec")
 #combine with dataframe
-dataframe2 <- cbind(dataframe2, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec)
+dataframe2 <- cbind(dataframe2, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec) #created with df3 fx
 str(dataframe2)
 outind <- lm(income ~ t2 + Jan + Feb + Mar + Apr + May + Jun + Jul + 
                Aug + Sep + Oct + Nov, data = dataframe2)
