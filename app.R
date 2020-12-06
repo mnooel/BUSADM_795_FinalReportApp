@@ -174,11 +174,11 @@ implementation <- tabPanel(
         h4('Needed Items:'),
         includeHTML(path = 'sections/implementation/im_requirements.html')
     ),
-    # lm_body1.html
+    # im_body1.html
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body1.html')
     ),
-    # lm_plot1
+    # im_plot1
     div(class = 'section',
         selectInput(inputId = 'im_plot1_select',
                     label = "Outlier Removal Discovery",
@@ -188,11 +188,11 @@ implementation <- tabPanel(
         ),
         plotOutput(outputId = 'im_plot1', height = 650),
     ),
-    # lm_body2.html
+    # im_body2.html
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body2.html')
     ),
-    # lm_plot2
+    # im_plot2
     div(class = 'section',
         selectInput(inputId = 'im_plot2_select',
                     label = "New Title here",  # todo new title here
@@ -202,11 +202,11 @@ implementation <- tabPanel(
         ),
         plotOutput(outputId = 'im_plot2', height = 650),
     ),
-    # lm_body3.html
+    # im_body3.html
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body3.html')
     ),
-    # lm_body_console1.html
+    # im_body_console1.html
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body_console1.html')
     ),
@@ -214,7 +214,7 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body4.html')
     ),
-    # lm_plot3
+    # im_plot3
     # todo add render text descriptions of the graphs
     div(class = 'section',
         selectInput(inputId = 'im_plot3_select',
