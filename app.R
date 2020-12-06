@@ -206,12 +206,16 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body3.html')
     ),
-    # todo add console output here
+    # lm_body_console1.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body_console1.html')
+    ),
     # im_body4.html
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body4.html')
     ),
     # lm_plot3
+    # todo add render text descriptions of the graphs
     div(class = 'section',
         selectInput(inputId = 'im_plot3_select',
                     label = "Modal Diagnostic Plots",
@@ -341,6 +345,7 @@ server <- function(input, output) {
     plot <- im_render_plot2(aTimeMonth_v3, input$im_plot2_select)
     show(plot)
   })
+
   #im_plot3
   output$im_plot3 <- renderPlot({
     plot <- im_render_plot3(aTimeMonth_v3, input$im_plot3_select)
