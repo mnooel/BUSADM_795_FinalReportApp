@@ -236,6 +236,11 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body7.html')
     ),
+    # im_plot5
+    # im_body8.html
+    # im_body_console2.html
+    # im_body9.html
+    # im_plot6
   ),
 )
 
