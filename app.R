@@ -297,7 +297,7 @@ be satisfited byh the model we have choose.'
           selectInput(inputId = 'im_plot6_select',
                       label = "Modal Diagnostic Plots",
                       selected = NULL,
-                      choices = im_plot6_choices,
+                      choices = im_plot3_choices,
                       width = '100%'
           ),
           imageOutput(outputId = 'im_plot6', inline = TRUE),
@@ -469,7 +469,7 @@ be satisfited byh the model we have choose.'
 
       print(input$im_plot6_select)
 
-      filename <- im_render_plot6(input$im_plot6_select)
+      filename <- im_render_plot6(im_plot3_choices,input$im_plot6_select)
       print(filename)
       list(
         src = filename

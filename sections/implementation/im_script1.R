@@ -181,12 +181,12 @@ im_render_plot2 <- function(dataframe, choice) {
 ### im_plot3 ###
 
 # im_plot3_a Time_Series_Analysis.R Lines 2-6
-im_plot3_choice1 <- 'im_plot3_choice1'
-im_plot3_choice2 <- 'im_plot3_choice2'
-im_plot3_choice3 <- 'im_plot3_choice3'
-im_plot3_choice4 <- 'im_plot3_choice4'
-im_plot3_choice5 <- 'im_plot3_choice5'
-im_plot3_choice6 <- 'im_plot3_choice6'
+im_plot3_choice1 <- 'Residuals Plot'
+im_plot3_choice2 <- 'Fited v Residuals'
+im_plot3_choice3 <- 'Residuals, Autocorrelation'
+im_plot3_choice4 <- 'Residuals, Partial Autocorelation'
+im_plot3_choice5 <- 'Residuals'
+im_plot3_choice6 <- 'Normal Q-Q Plot Residuals'
 
 im_plot3_choices <- list(
   im_plot3_choice1, im_plot3_choice2, im_plot3_choice3, im_plot3_choice4, im_plot3_choice5, im_plot3_choice6
@@ -208,7 +208,10 @@ im_render_plot3_choice1 <- function(dataframe) {
 im_render_plot3_choice2 <- function(dataframe) {
   dataframe3 <- im_dataframe3(dataframe)
   lagout2 <- im_lagout2(dataframe3)
-  plot <- plot(fitted(lagout2) ~ residuals(lagout2), xlab = "Residuals", ylab = "Fitted")
+  plot <- plot(fitted(lagout2) ~ residuals(lagout2),
+               main = 'Residuals',
+               xlab = "Residuals",
+               ylab = "Fitted")
   plot
 }
 
@@ -240,7 +243,9 @@ im_render_plot3_choice5 <- function(dataframe) {
 im_render_plot3_choice6 <- function(dataframe) {
   dataframe3 <- im_dataframe3(dataframe)
   lagout2 <- im_lagout2(dataframe3)
-  plot <- qqnorm(residuals(lagout2), main = "Normal Q-Q Plot Residuals", pch = 19)
+  plot <- qqnorm(residuals(lagout2),
+                 main = "Normal Q-Q Plot Residuals",
+                 pch = 19)
   plot
 }
 
@@ -272,6 +277,34 @@ im_render_plot3 <- function(dataframe, choice) {
   }
 }
 
+# im_render_plot3
+im_render_plot3_desc <- function(choice) {
+  if (choice == im_plot3_choice1) {
+    desc <- " "
+    desc
+  }
+  if (choice == im_plot3_choice2) {
+    desc <- "Residuals show constant variance."
+    desc
+  }
+  if (choice == im_plot3_choice3) {
+    desc <- "There are no significant autocorrelations in the residuals."
+    desc
+  }
+  if (choice == im_plot3_choice4) {
+    desc <- "There are no significant autocorrelations in the residuals."
+    desc
+  }
+  if (choice == im_plot3_choice5) {
+    desc <- "There is a little skew in the residuals histogram but the distribution appears approximately normal. "
+    desc
+  }
+  if (choice == im_plot3_choice6) {
+    desc <- "The homoscedasticity, normality, and autocorrelation assumptions of linear regression appear to be satisfied by the model we chose."
+    desc
+  }
+}
+
 ### im_plot4 ###
 
 # dataframe to dataframe4
@@ -292,4 +325,13 @@ im_render_plot4 <- function(dataframe) {
   legend("topleft", c("Original", "Fitted"), lty = c(2, 1),
          col = c("black", "blue"), cex = 0.75)
   plot
+}
+
+# im_render_plot6
+im_render_plot6 <- function(choices, choice) {
+
+  plot_num <- which.max(choices==choice)
+  img_file <- paste0('./images/im_plot6_choice', plot_num, '.png')
+  img_file
+
 }
