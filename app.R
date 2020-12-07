@@ -3,7 +3,7 @@
 # Created by: Aaron Koss, Michael Noel
 # Course : 216-795-004 - BUSADM 795 - Seminar-in-Management: Ideas and Applications of Data Science in Difference Fields
 # Semseter : Fall 2020
-# Authors : Aaron Koss, Michael Noel  todo: add email addresses?
+# Authors : Aaron Koss, Michael Noel
 # Created on: 12/3/20
 
 if (interactive()) {
@@ -581,7 +581,7 @@ if (interactive()) {
         print(plot(NN))
         #dev.print(outfile)
         dev.print(png, outfile, width = width, height = height)
-
+        
 
         list(src = outfile,
              width = width,
