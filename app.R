@@ -323,6 +323,7 @@ be satisfited byh the model we have choose.'
           sliderInput("im_plot9_slider1", "layer 1 neurons", 1, 10, 4, width = '100%'),
           sliderInput("im_plot9_slider2", "layer 2 neurons", 0, 10, 0, width='100%'),
           sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 10, 0, width='100%'),
+          sliderInput('im_plot9_slider4', 'test population %', 10, 90, 80, width = '100%'),
 
           plotOutput(outputId = 'im_plot9', height = 1000),
       ),
@@ -506,7 +507,7 @@ be satisfited byh the model we have choose.'
 
 
       # plot the NN
-      plot_neural_network <- function(nn_dataframe, layer1, layer2, layer3) {
+      plot_neural_network <- function(nn_dataframe, layer1, layer2, layer3, test_per) {
 
         ### layers ###
         layers <- list(layer1, layer2, layer3)
@@ -517,6 +518,9 @@ be satisfited byh the model we have choose.'
           else(neuron_vec <- append(neuron_vec, layer))
         }
         print(neuron_vec)
+
+        # test percentage
+        test_percentage <- (test_per / 100)
 
         ### neural network ###
         # remove outliers
@@ -564,7 +568,7 @@ be satisfited byh the model we have choose.'
         # omit nan
         NN.data <- na.omit(NN.data)
 
-        samplesize <- 0.80 * nrow(NN.data)
+        samplesize <- test_percentage * nrow(NN.data)
         set.seed(80)
 
         index <- sample(seq_len(nrow(NN.data)), size = samplesize)
@@ -611,7 +615,12 @@ be satisfited byh the model we have choose.'
 
       }
 
-      plot_neural_network(nn_data_df, input$im_plot9_slider1, input$im_plot9_slider2, input$im_plot9_slider3)
+      plot_neural_network(nn_data_df,
+                          input$im_plot9_slider1,
+                          input$im_plot9_slider2,
+                          input$im_plot9_slider3,
+                          input$im_plot9_slider4
+      )
     }, deleteFile = TRUE)
 
   }
