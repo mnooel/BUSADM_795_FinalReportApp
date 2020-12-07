@@ -17,7 +17,7 @@ div.section {
 div.section_head {
   margin: auto;
   padding-top: 75px;
-  width: 50%;
+  width: 65%;
   top: 1500px;
   left: 0;
   right: 0;
@@ -50,6 +50,11 @@ div.html_content_centered {
   font-size: 14pt;
 }
 
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 img.intro_icons {
   max-width: 100%;
   max-height: 100%;
@@ -58,8 +63,9 @@ img.intro_icons {
 /* Customize fonts */
 body, label, input, button, select, p {
   font-family: 'Helvetica Neue', Helvetica;
-  font-size: 14pt;
+  font-size: 18pt;
   font-weight: 350;
+  padding-top: 15px;
 }
 h1, h2, h3, h4 {
   font-weight: 400;
