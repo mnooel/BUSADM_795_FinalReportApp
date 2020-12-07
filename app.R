@@ -483,7 +483,7 @@ server <- function(input, output, session) {
   }, deleteFile = FALSE)
 
   # neural network visualization
-  output$im_plot9 <- renderImage({
+  output$im_plot9 <- renderPlot({
 
     # plot the NN
     plot_neural_network <- function(nn_dataframe, layer1, layer2, layer3, test_per) {
@@ -570,6 +570,7 @@ server <- function(input, output, session) {
         Feb, trainNN, hidden = neuron_vec, linear.output = T, stepmax = 1e7)
 
 
+      #plot(NN)
       # adjust to height of session
       width <- session$clientData$output_im_plot9_width
       height <- session$clientData$output_im_plot9_height
@@ -578,18 +579,19 @@ server <- function(input, output, session) {
       # sends it, because deleteFile=TRUE.
       outfile <- tempfile(fileext = '.png')
 
-      png(outfile, width = width, height = height)
-      dev.off()
-      print(plot(NN))
-      #dev.print(outfile)
-      dev.print(png, outfile, width = width, height = height)
+      #png(outfile, width = width, height = height, res = 72)
+      #dev.off()
+      #print(plot(NN))
+      ##dev.print(outfile)
+      #dev.print(png, outfile, width = width, height = height)
+      #
+      #
+      #list(src = outfile,
+      #     width = width,
+      #     height = height,
+      #     alt = "Rendered Neural Network")
 
-
-      list(src = outfile,
-           width = width,
-           height = height,
-           alt = "Rendered Neural Network")
-
+      plotPNG(plot(NN), filename = tempfile(fileext = '.png'), width = width, height = height, res = 72)
 
     }
 
@@ -599,7 +601,8 @@ server <- function(input, output, session) {
                         input$im_plot9_slider3,
                         input$im_plot9_slider4
     )
-  }, deleteFile = TRUE)
+  }, #deleteFile = TRUE
+  )
 
 }
 
