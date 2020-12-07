@@ -312,6 +312,7 @@ if (interactive()) {
           sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 10, 0, width = '100%'),
           sliderInput('im_plot9_slider4', 'test population %', 10, 90, 80, width = '100%'),
 
+
           plotOutput(outputId = 'im_plot9', height = 1000),
       ),
       div(class = 'section',
@@ -333,7 +334,7 @@ if (interactive()) {
           includeHTML(path = 'sections/next_steps/ns_requirements.html')
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/ns_body1.html')
+          includeHTML(path = 'sections/next_steps/ns_body1.html')
       ),
     ),
   )
@@ -356,34 +357,34 @@ if (interactive()) {
     ),
   )
 
-  # Base Demo Page
-  base_page_to_copy <- tabPanel(
-    title = 'REPLACE ME',  # todo remove base_page_to_copy
-    fluidPage(
-      div(class = 'section_head'),
-      div(class = 'section',
-          span(),
-          h1('BASE PAGE'),
-      ),
-      div(class = 'section',
-          includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
-      ),
-      div(class = 'section',
-          sliderInput(inputId = 'ex_slider',
-                      label = 'Number of observations',
-                      1,
-                      100,
-                      50,
-                      width = '100%'),
-          plotOutput('ex_plot', height = 650),
-      )
-      ,
-      div(class = 'section',
-          h4('HEADING 2'),
-          includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
-      )
-    ),
-  )
+  ## Base Demo Page
+  #base_page_to_copy <- tabPanel(
+  #  title = 'REPLACE ME',  # todo remove base_page_to_copy
+  #  fluidPage(
+  #    div(class = 'section_head'),
+  #    div(class = 'section',
+  #        span(),
+  #        h1('BASE PAGE'),
+  #    ),
+  #    div(class = 'section',
+  #        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
+  #    ),
+  #    div(class = 'section',
+  #        sliderInput(inputId = 'ex_slider',
+  #                    label = 'Number of observations',
+  #                    1,
+  #                    100,
+  #                    50,
+  #                    width = '100%'),
+  #        plotOutput('ex_plot', height = 650),
+  #    )
+  #    ,
+  #    div(class = 'section',
+  #        h4('HEADING 2'),
+  #        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
+  #    )
+  #  ),
+  #)
 
 
   ui <- bootstrapPage(
@@ -403,8 +404,8 @@ if (interactive()) {
                recomendations,
                implementation,
                next_steps,
-               references,
-               base_page_to_copy
+               references
+               #base_page_to_copy
                # no trailing comma
     )
   )
@@ -484,7 +485,6 @@ if (interactive()) {
 
     # neural network visualization
     output$im_plot9 <- renderImage({
-
 
       # plot the NN
       plot_neural_network <- function(nn_dataframe, layer1, layer2, layer3, test_per) {
@@ -593,7 +593,7 @@ if (interactive()) {
 
 
       }
-
+      
       plot_neural_network(nn_data_df,
                           input$im_plot9_slider1,
                           input$im_plot9_slider2,
