@@ -490,19 +490,7 @@ be satisfited byh the model we have choose.'
 
     }, deleteFile = FALSE)
 
-    #im_plot8 todo change label
-    output$im_plot8 <- renderImage({
-
-      filename <- "images/Rplot04.png"
-
-      # Return a list containing information about the image
-      list(
-        src = filename
-      )
-
-
-    }, deleteFile = FALSE)
-
+    # neural network visualization
     output$im_plot9 <- renderImage({
 
 
