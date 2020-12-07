@@ -90,7 +90,7 @@ im_rmse <- function(dataframe) {
   set.seed(420)
 
   predict.regsubsets <- function(object, newdata, id) {
-    form <- as.formula(object$call[[2]])
+    form <- as.formula(object$call[[2]]) # todo fix bug
     mat <- model.matrix(form, newdata)
     coefi <- coef(object, id = id)
     xvars <- names(coefi)
@@ -111,7 +111,8 @@ im_rmse <- function(dataframe) {
   }
   mean.cv.errors <- apply(cv.errors, 2, mean)
   rmse <- sqrt(mean.cv.errors)
-  rmse
+  rmse_list <- list(rmse)
+  rmse_list
 }
 
 # dataframe to kfolds_model
@@ -199,6 +200,7 @@ im_kfold_model <- function(dataframe) {
     coefi <- coef(object, id = id)
     xvars <- names(coefi)
     mat[, xvars] %*% coefi
+    form$call$formula <- form
   }
 
   k <- 5
@@ -228,18 +230,47 @@ im_kfold_model <- function(dataframe) {
     Oct +
     Nov +
     Feb, data = dataframe2.omit)
+  kfold_model
 }
 
 ### im_plot5 ###
 
 # im_render_plot5
 im_render_plot5 <- function(dataframe) {
-  rmse <- im_rmse(dataframe)
+  rmse <- im_rmse(dataframe) # todo figure this shit out
   plot <- plot(rmse, pch = 19, type = "b")
-  plot
 }
 
-### im_plot6 ###
+#### im_plot6 ###
+#
+#im_plot6_choice1 <- '1. Residuals Plot'
+#im_plot6_choice2 <- '2. Residuals show constant variance'
+#im_plot6_choice3 <- '3. There are no significant autocorrelations in the residuals'
+#im_plot6_choice4 <- '4. There are no significant partial autocorrelations in the residuals'
+#im_plot6_choice5 <- '5. The distribution of the residuals looks approximately normal'
+#im_plot6_choice6 <- '6. The homoscedasticity, normality, and autocorrelation assumtions of linear regression appear to be satisfited byh the model we have choose.'
+#
+#im_plot6_choices <- list(
+#  im_plot6_choice1, im_plot6_choice2, im_plot6_choice3, im_plot6_choice4, im_plot6_choice5, im_plot6_choice6
+#)
+#
+#
+## im_render_plot6_choice1 MLR_with_lag_and_var.R Line 94-95
+#im_render_plot6 <- function(choice) {
+#  plot_num <- substring(choice, 1, 1)
+#  filename <- paste0('./images/im_plot6_choice', plot_num, '.png')
+#
+#  #filename <- normalizePath(file.path('./images/im_plot6_choice',
+#  #                                    paste0(plot_num, '.png')))
+#  print(filename)
+#  return(filename)
+#}
 
+## im_render_plot3
+#im_render_plot6 <- function(dataframe, choice) {
+#  if (choice == im_plot6_choice1) {
+#    plot <- im_render_plot6_choice1(dataframe)
+#    plot
+#  }
+#}
 
-### im_plot2 ###
