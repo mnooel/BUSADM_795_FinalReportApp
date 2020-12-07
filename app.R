@@ -332,6 +332,9 @@ if (interactive()) {
           h4('Needed Items:'),
           includeHTML(path = 'sections/next_steps/ns_requirements.html')
       ),
+      div(class = 'section',
+          includeHTML(path = 'sections/implementation/ns_body1.html')
+      ),
     ),
   )
 
@@ -581,7 +584,7 @@ if (interactive()) {
         print(plot(NN))
         #dev.print(outfile)
         dev.print(png, outfile, width = width, height = height)
-        
+
 
         list(src = outfile,
              width = width,

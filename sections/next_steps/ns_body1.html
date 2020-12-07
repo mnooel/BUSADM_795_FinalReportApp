@@ -1,0 +1,44 @@
+<!-- sections/expectations/ns_body1.html -->
+<div class="html_content">
+    <h3>Sales Pipeline Analysis</h3>
+    <p>
+        We recognize that our predictions may be limited by the data available to us in this project and the model
+        constructed. Therefore, a more robust analysis would incorporate additional data sources and likely require
+        different modeling techniques. Core Creative uses Salesforce to manage client relationships and track potential
+        sales. This data is currently housed only in the Salesforce application that Core Creative uses. Including this
+        data with the ERP database could lead to a much better analysis of revenue and increase the accuracy of
+        projections. Though the difficulty in creating an automated way to access the data would be great. Additional
+        information held in Salesforce includes, client communication logs, and sales opportunities for new sales
+        activities. Also, the use of the sales pipeline module in the existing ERP system would be recommended. This
+        could help shine light on the future of organic sales with current clients.
+    </p>
+    <p>
+        Our recommendation would be to incorporate Salesforce data into a database with the ERP data. Using these data
+        sources in tandem could enable interesting analysis. For example, client communication logs could be analyzed
+        using natural language processing though a software like OpenNLP which has an interface for R (Choudhury, 2020).
+        Combining insights from the communication logs, the Salesforce sales pipeline, and the ERP system pipeline would
+        help pinpoint more precisely when a potential sale is going to close.
+    </p>
+    <p>
+        An analysis such as this would move beyond time series forecast and linear regression and likely incorporate
+        logistic regression. Logistic regression could predict the probability of a client sale being recognized in a
+        given month. Understanding when a potential sale is going to close is a key aspect, in addition to measuring
+        recurring revenue, for predicting next month’s revenue.
+    </p>
+</div>
+<div class="html_content">
+    <h3>Division of Financial Data by Other Entity</h3>
+    <p>
+        There are many other entities at core creative that drive revenue. Our analysis took a look solely at the
+        financial side of the data with divisions of new business efforts and employee load balance of billable and
+        unbillable. Clients, projects, project types, and employees could all be clustered based on aggregated data for
+        each type of entity. The database houses the relational data needed to the split financial information based on
+        the three clusters found. This division of financial information would multiple the number of data points
+        observed by the number of clusters. It’s unknown if this type of analysis would prove fruitful but it can be
+        done <- aaron please reword if you get what I am saying.
+    </p>
+    <p>
+        Project types, clients, employees, project, salesforce data (pipeline)/opportunities, comment records, client
+        communications logs (NLP), could each be individually examined to see how they influence forecasting.
+    </p>
+</div>
