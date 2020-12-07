@@ -314,15 +314,15 @@ be satisfited byh the model we have choose.'
       div(class = 'section',
           includeHTML(path = 'sections/implementation/im_body11.html'),
       ),
-      # im_plot8 first neural network
-      div(class = 'section',
-          imageOutput(outputId = 'im_plot8', inline = TRUE)
-      ),
+      ## im_plot8 first neural network
+      #div(class = 'section',
+      #    imageOutput(outputId = 'im_plot8', inline = TRUE)
+      #),
       # im_plot9
       div(class = 'section',
           sliderInput("im_plot9_slider1", "layer 1 neurons", 1, 10, 4, width = '100%'),
-          sliderInput("im_plot9_slider2", "layer 2 neurons", 0, 10, 0, width='100%'),
-          sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 10, 0, width='100%'),
+          sliderInput("im_plot9_slider2", "layer 2 neurons", 0, 10, 0, width = '100%'),
+          sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 10, 0, width = '100%'),
           sliderInput('im_plot9_slider4', 'test population %', 10, 90, 80, width = '100%'),
 
           plotOutput(outputId = 'im_plot9', height = 1000),
@@ -470,7 +470,7 @@ be satisfited byh the model we have choose.'
 
       print(input$im_plot6_select)
 
-      filename <- im_render_plot6(im_plot3_choices,input$im_plot6_select)
+      filename <- im_render_plot6(im_plot3_choices, input$im_plot6_select)
       print(filename)
       list(
         src = filename
