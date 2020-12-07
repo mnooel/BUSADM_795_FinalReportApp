@@ -26,9 +26,9 @@ if (interactive()) {
 
 
   # import other_data_data
-  aTimeMonth_v3 <- read.csv("data_dir/edited_csv_table_dataaTimeMonth_v3.csv")
-  Formal_aTimeMonth_v3 <- read.csv('data_dir/ap_plot1_data.csv')
-  nn_data_df <- read.csv(file = 'data_dir/NN_csv_table.csv')
+  aTimeMonth_v3 <- read.csv("./data_dir/edited_csv_table_dataaTimeMonth_v3.csv")
+  Formal_aTimeMonth_v3 <- read.csv('./data_dir/ap_plot1_data.csv')
+  nn_data_df <- read.csv(file = './data_dir/NN_csv_table.csv')
 
 
   ### ANALYSIS PLAN FUNCTIONS ###
@@ -44,9 +44,9 @@ if (interactive()) {
   }
 
   ### SCRIPTS ###
-  source(file = 'sections/implementation/im_script1.R')
-  source(file = 'sections/implementation/im_script2.R')
-  #source(file = 'sections/implementation/im_script3.R')
+  source(file = './sections/implementation/im_script1.R')
+  source(file = './sections/implementation/im_script2.R')
+  #source(file = './sections/implementation/im_script3.R')
 
 
   ### SHINY UI ###
@@ -61,7 +61,7 @@ if (interactive()) {
           h1('Introduction'),
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/introduction/int_body1.html')
+          includeHTML(path = './sections/introduction/int_body1.html')
       ),
     ),
   )
@@ -75,10 +75,10 @@ if (interactive()) {
           h1('Executive Summary'),
       ),
       div(class = 'section', # todo remove needed items div from executive_summary
-          includeHTML(path = 'sections/executive_summary/es_requirements.html')
+          includeHTML(path = './sections/executive_summary/es_requirements.html')
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/executive_summary/es_body1.html')
+          includeHTML(path = './sections/executive_summary/es_body1.html')
       ),
     ),
   )
@@ -94,18 +94,18 @@ if (interactive()) {
       ),
       div(class = 'section',
           h4('Needed Items:'),
-          includeHTML(path = 'sections/description_of_data/dd_requirements.html')
+          includeHTML(path = './sections/description_of_data/dd_requirements.html')
       ),
       div(class = 'section',
           h4('Database Connection Engines'),
-          includeHTML(path = 'sections/description_of_data/dd_body1.html')
+          includeHTML(path = './sections/description_of_data/dd_body1.html')
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/description_of_data/database_engines.html')
+          includeHTML(path = './sections/description_of_data/database_engines.html')
       ),
       div(class = 'section',
           h4('Database Connection Engines'),
-          includeHTML(path = 'sections/description_of_data/dd_body2.html')
+          includeHTML(path = './sections/description_of_data/dd_body2.html')
       ),
 
     ),
@@ -124,10 +124,10 @@ if (interactive()) {
       ),
       div(class = 'section', # todo remove needed items div from analysis_plan
           h4('Needed Items:'),
-          includeHTML(path = 'sections/analysis_plan/ap_requirement.html')
+          includeHTML(path = './sections/analysis_plan/ap_requirement.html')
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/analysis_plan/ap_body1.html')
+          includeHTML(path = './sections/analysis_plan/ap_body1.html')
       ),
       div(class = 'section',
           selectInput(inputId = 'ap_plot1_select',
@@ -140,7 +140,7 @@ if (interactive()) {
 
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/analysis_plan/ap_body_2.html')
+          includeHTML(path = './sections/analysis_plan/ap_body_2.html')
       ),
     ),
   )
@@ -155,11 +155,11 @@ if (interactive()) {
       ),
       div(class = 'section', # todo remove needed items div from expectations
           h4('Needed Items'),
-          includeHTML(path = 'sections/expectations/ex_requirements.html')
+          includeHTML(path = './sections/expectations/ex_requirements.html')
       ),
       # ex_body1.html
       div(class = 'section',
-          includeHTML(path = 'sections/expectations/ex_body1.html')
+          includeHTML(path = './sections/expectations/ex_body1.html')
       ),
     ),
   )
@@ -174,11 +174,11 @@ if (interactive()) {
       ),
       div(class = 'section', # todo remove needed items div from recomendations
           h4('Needed Items:'),
-          includeHTML(path = 'sections/recomendations/re_requirements.html')
+          includeHTML(path = './sections/recomendations/re_requirements.html')
       ),
       # re_body1.html
       div(class = 'section',
-          includeHTML(path = 'sections/recomendations/re_body1.html')
+          includeHTML(path = './sections/recomendations/re_body1.html')
       ),
     ),
   )
@@ -194,11 +194,11 @@ if (interactive()) {
       # requirements section
       div(class = 'section', # todo remove needed items div from implementation
           h4('Needed Items:'),
-          includeHTML(path = 'sections/implementation/im_requirements.html')
+          includeHTML(path = './sections/implementation/im_requirements.html')
       ),
       # im_body1.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body1.html')
+          includeHTML(path = './sections/implementation/im_body1.html')
       ),
       # im_plot1
       div(class = 'section',
@@ -212,7 +212,7 @@ if (interactive()) {
       ),
       # im_body2.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body2.html')
+          includeHTML(path = './sections/implementation/im_body2.html')
       ),
       # im_plot2
       div(class = 'section',
@@ -226,15 +226,15 @@ if (interactive()) {
       ),
       # im_body3.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body3.html')
+          includeHTML(path = './sections/implementation/im_body3.html')
       ),
       # im_body_console1.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body_console1.html')
+          includeHTML(path = './sections/implementation/im_body_console1.html')
       ),
       # im_body4.html: Model Diagnostics
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body4.html')
+          includeHTML(path = './sections/implementation/im_body4.html')
       ),
       # im_plot3
       div(class = 'section',
@@ -249,7 +249,7 @@ if (interactive()) {
       ),
       # im_body5.html: Plot Original vs Fitted Values
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body5.html')
+          includeHTML(path = './sections/implementation/im_body5.html')
       ),
       # im_plot4
       div(class = 'section',
@@ -257,11 +257,11 @@ if (interactive()) {
       ),
       # im_body6.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body6.html')
+          includeHTML(path = './sections/implementation/im_body6.html')
       ),
       # im_body7.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body7.html')
+          includeHTML(path = './sections/implementation/im_body7.html')
       ),
       # im_plot5
       div(class = 'section',
@@ -269,15 +269,15 @@ if (interactive()) {
       ),
       # im_body8.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body8.html')
+          includeHTML(path = './sections/implementation/im_body8.html')
       ),
       # im_body_console2.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body_console2.html')
+          includeHTML(path = './sections/implementation/im_body_console2.html')
       ),
       # im_body6.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body9.html')
+          includeHTML(path = './sections/implementation/im_body9.html')
       ),
       # im_plot6
       div(class = 'section',
@@ -291,7 +291,7 @@ if (interactive()) {
       ),
       # im_body10.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body10.html')
+          includeHTML(path = './sections/implementation/im_body10.html')
       ),
       # im_plot7 todo plot original vs fitted values
       div(class = 'section',
@@ -299,7 +299,7 @@ if (interactive()) {
       ),
       # im_body11.html
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body11.html'),
+          includeHTML(path = './sections/implementation/im_body11.html'),
       ),
       ## im_plot8 first neural network
       #div(class = 'section',
@@ -316,7 +316,7 @@ if (interactive()) {
           plotOutput(outputId = 'im_plot9', height = 1000),
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/implementation/im_body12.html')
+          includeHTML(path = './sections/implementation/im_body12.html')
       ),
     ),
   )
@@ -331,10 +331,10 @@ if (interactive()) {
       ),
       div(class = 'section', # todo remove needed items div from next_steps
           h4('Needed Items:'),
-          includeHTML(path = 'sections/next_steps/ns_requirements.html')
+          includeHTML(path = './sections/next_steps/ns_requirements.html')
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/next_steps/ns_body1.html')
+          includeHTML(path = './sections/next_steps/ns_body1.html')
       ),
     ),
   )
@@ -349,10 +349,10 @@ if (interactive()) {
       ),
       div(class = 'section',  # todo remove needed items div from references
           h4('Needed Items:'),
-          includeHTML(path = 'sections/references/rf_references.html')
+          includeHTML(path = './sections/references/rf_references.html')
       ),
       div(class = 'section',
-          includeHTML(path = 'sections/references/rf_body1.html')
+          includeHTML(path = './sections/references/rf_body1.html')
       ),
     ),
   )
@@ -367,7 +367,7 @@ if (interactive()) {
   #        h1('BASE PAGE'),
   #    ),
   #    div(class = 'section',
-  #        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
+  #        includeHTML(path = './sections/_REPLACE_ME/example_paragraph.html')
   #    ),
   #    div(class = 'section',
   #        sliderInput(inputId = 'ex_slider',
@@ -381,16 +381,16 @@ if (interactive()) {
   #    ,
   #    div(class = 'section',
   #        h4('HEADING 2'),
-  #        includeHTML(path = 'sections/_REPLACE_ME/example_paragraph.html')
+  #        includeHTML(path = './sections/_REPLACE_ME/example_paragraph.html')
   #    )
   #  ),
   #)
 
 
   ui <- bootstrapPage(
-    tags$head(includeCSS('styles.css')),
+    tags$head(includeCSS('./styles.css')),
     navbarPage(theme = shinytheme('flatly'),
-               header = tags$head(includeCSS(path = 'styles.css')),
+               header = tags$head(includeCSS(path = './styles.css')),
                position = 'fixed-top',
                collapsable = FALSE,
                title = "Revenue Forcasting",
@@ -453,7 +453,7 @@ if (interactive()) {
 
     #im_plot5
     output$im_plot5 <- renderImage({
-      filename <- "images/im_plot5.png"
+      filename <- "./images/im_plot5.png"
       list(src = filename)
     }, deleteFile = FALSE)
 
@@ -473,7 +473,7 @@ if (interactive()) {
     #im_plot7
     output$im_plot7 <- renderImage({
 
-      filename <- "images/im_plot7.png"
+      filename <- "./images/im_plot7.png"
 
       # Return a list containing information about the image
       list(

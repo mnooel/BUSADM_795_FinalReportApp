@@ -7,7 +7,7 @@
 library(neuralnet)
 library(Hmisc)
 
-nn_df <- read.csv('data_dir/edited_NN_csv_table.csv')
+nn_df <- read.csv('./data_dir/edited_NN_csv_table.csv')
 
 
 # remove outliers
