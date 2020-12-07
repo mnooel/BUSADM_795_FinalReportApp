@@ -183,18 +183,6 @@ if (interactive()) {
     ),
   )
 
-  im_plot6_choice1 <- '1. Residuals Plot'
-  im_plot6_choice2 <- '2. Residuals show constant variance'
-  im_plot6_choice3 <- '3. There are no significant autocorrelations in the residuals'
-  im_plot6_choice4 <- '4. There are no significant partial autocorrelations in the residuals'
-  im_plot6_choice5 <- '5. The distribution of the residuals looks approximately normal'
-  im_plot6_choice6 <- '6. The homoscedasticity, normality, and autocorrelation assumtions of linear regression appear to
-be satisfited byh the model we have choose.'
-
-  im_plot6_choices <- list(
-    im_plot6_choice1, im_plot6_choice2, im_plot6_choice3, im_plot6_choice4, im_plot6_choice5, im_plot6_choice6
-  )
-
   # Implementation
   implementation <- tabPanel(
     title = 'Implementation',
@@ -249,7 +237,6 @@ be satisfited byh the model we have choose.'
           includeHTML(path = 'sections/implementation/im_body4.html')
       ),
       # im_plot3
-      # todo add render text descriptions of the graphs
       div(class = 'section',
           selectInput(inputId = 'im_plot3_select',
                       label = "Modal Diagnostic Plots",
@@ -327,7 +314,9 @@ be satisfited byh the model we have choose.'
 
           plotOutput(outputId = 'im_plot9', height = 1000),
       ),
-
+      div(class = 'section',
+          includeHTML(path = 'sections/implementation/im_body12.html')
+      ),
     ),
   )
 
@@ -577,7 +566,6 @@ be satisfited byh the model we have choose.'
           Oct +
           Nov +
           Feb, trainNN, hidden = neuron_vec, linear.output = T, stepmax = 1e7)
-
 
 
         # adjust to height of session
