@@ -303,7 +303,7 @@ implementation <- tabPanel(
     ),
     # im_plot7 todo plot original vs fitted values
     div(class = 'section',
-        plotOutput(outputId = 'im_plotnn', height = 650),
+        imageOutput(outputId = 'im_plot7', inline = TRUE),
     ),
     # im_body11.html
     div(class = 'section',
@@ -463,6 +463,19 @@ server <- function(input, output, session) {
     list(
       src = filename
     )
+  }, deleteFile = FALSE)
+
+  #im_plot7
+  output$im_plot7 <- renderImage({
+
+    filename <- "images/im_plot7.png"
+
+    # Return a list containing information about the image
+    list(
+      src = filename
+    )
+
+
   }, deleteFile = FALSE)
 
   #im_plot8 todo change label
