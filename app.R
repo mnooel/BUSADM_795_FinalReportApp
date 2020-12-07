@@ -316,12 +316,11 @@ be satisfited byh the model we have choose.'
       ),
       # im_plot9
       div(class = 'section',
-          sliderInput("im_plot9_slider1", "layer 1 neurons", 1, 4, 4),
-          sliderInput("im_plot9_slider2", "layer 2 neurons", 0, 4, 0),
-          sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 4, 0),
-          actionButton("im_plot9_submit", "Submit", class = "btn-success"),
+          sliderInput("im_plot9_slider1", "layer 1 neurons", 1, 10, 4, width = '100%'),
+          sliderInput("im_plot9_slider2", "layer 2 neurons", 0, 10, 0, width='100%'),
+          sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 10, 0, width='100%'),
 
-          plotOutput(outputId = 'im_plot9', height = 650),
+          plotOutput(outputId = 'im_plot9', height = 800),
       ),
 
     ),
@@ -503,9 +502,6 @@ be satisfited byh the model we have choose.'
     }, deleteFile = FALSE)
 
     output$im_plot9 <- renderImage({
-      # Take a dependency on input$im_plot9_submit. This will run once initially,
-      # because the value changes from NULL to 0.
-      input$im_plot9_submit
 
 
       # plot the NN
@@ -600,9 +596,11 @@ be satisfited byh the model we have choose.'
         outfile <- tempfile(fileext = '.png')
 
         png(outfile, width = width, height = height)
-        plot(NN)
-        dev.print(png, outfile, width = width, height = height)
         dev.off()
+        print(plot(NN))
+        #dev.print(outfile)
+        dev.print(png, outfile, width = width, height = height)
+
 
         list(src = outfile,
              width = width,
@@ -610,21 +608,9 @@ be satisfited byh the model we have choose.'
              alt = "Rendered Neural Network")
 
 
-        #NN <- neuralnet(dataframe.income ~ number_of_new_biz_time_entries_1 +
-        #  billable_amount_1 +
-        #  cost_of_goods_sold_1 +
-        #  dataframe.month +
-        #  Oct +
-        #  Nov +
-        #  Feb, trainNN, hidden = neuron_vec, linear.output = T, stepmax = 1e7)
-
-
       }
 
       plot_neural_network(nn_data_df, input$im_plot9_slider1, input$im_plot9_slider2, input$im_plot9_slider3)
-
-      #plot <- im_render_plot4(aTimeMonth_v3)
-      #show(plot)
     }, deleteFile = TRUE)
 
   }
