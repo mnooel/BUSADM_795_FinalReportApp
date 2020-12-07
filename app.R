@@ -179,12 +179,13 @@ recomendations <- tabPanel(
   ),
 )
 
-im_plot6_choice1 <- 'Residuals Plot'
-im_plot6_choice2 <- 'Residuals show constant variance'
-im_plot6_choice3 <- 'There are no significant autocorrelations in the residuals'
-im_plot6_choice4 <- 'There are no significant partial autocorrelations in the residuals'
-im_plot6_choice5 <- 'The distribution of the residuals looks approximately normal'
-im_plot6_choice6 <- 'The homoscedasticity, normality, and autocorrelation assumtions of linear regression appear to be satisfited byh the model we have choose.'
+im_plot6_choice1 <- '1. Residuals Plot'
+im_plot6_choice2 <- '2. Residuals show constant variance'
+im_plot6_choice3 <- '3. There are no significant autocorrelations in the residuals'
+im_plot6_choice4 <- '4. There are no significant partial autocorrelations in the residuals'
+im_plot6_choice5 <- '5. The distribution of the residuals looks approximately normal'
+im_plot6_choice6 <- '6. The homoscedasticity, normality, and autocorrelation assumtions of linear regression appear to
+be satisfited byh the model we have choose.'
 
 im_plot6_choices <- list(
   im_plot6_choice1, im_plot6_choice2, im_plot6_choice3, im_plot6_choice4, im_plot6_choice5, im_plot6_choice6
@@ -270,7 +271,7 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body7.html')
     ),
-    # im_plot5 todo plot rmse
+    # im_plot5
     div(class = 'section',
         imageOutput(outputId = 'im_plot5', inline = TRUE),
     ),
@@ -286,7 +287,7 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body9.html')
     ),
-    # im_plot6 todo plot modal diagnostics for kfolds shit
+    # im_plot6
     div(class = 'section',
         selectInput(inputId = 'im_plot6_select',
                     label = "Modal Diagnostic Plots",
@@ -454,10 +455,11 @@ server <- function(input, output, session) {
   #im_plot6
   output$im_plot6 <- renderImage({
 
-    if (input$im_plot6_select == im_plot6_choice1)
 
+    print(input$im_plot6_select)
 
     filename <- im_render_plot6(input$im_plot6_select)
+    print(filename)
     list(
       src = filename
     )
