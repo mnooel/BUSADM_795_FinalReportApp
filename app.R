@@ -6,6 +6,7 @@
 # Authors : Aaron Koss, Michael Noel  todo: add email addresses?
 # Created on: 12/3/20
 
+
 # load required packages
 if (!require(shiny)) install.packages("shiny", repos = "http://cran.us.r-project.org")
 if (!require(shinydashboard)) install.packages("shinydashboard", repos = "http://cran.us.r-project.org")
@@ -14,21 +15,25 @@ if (!require(Hmisc)) install.packages("Himsc", repos = "http://cran.us.r-project
 if (!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
 if (!require(ggrepel)) install.packages("ggrepel", repos = "http://cran.us.r-project.org")
 if (!require(leaps)) install.packages("leaps", repos = "http://cran.us.r-project.org")
+if (!require(neuralnet)) install.packages("neuralnet", repos = "http://cran.us.r-project.org")
 
 
 # import libraries
 library(shinydashboard)
+library(Hmisc)
+library(neuralnet)
 
 
-# import data
-aTimeMonth_v3 <- read.csv(file = 'data/edited_csv_table_dataaTimeMonth_v3.csv')
-Formal_aTimeMonth_v3 <- read.csv(file = 'data/formal_csv_table_dataaTimeMonth_v3.csv')
+# import other_data_data
+aTimeMonth_v3 <- read.csv("data_dir/edited_csv_table_dataaTimeMonth_v3.csv")
+Formal_aTimeMonth_v3 <- read.csv('data_dir/formal_csv_table_dataaTimeMonth_v3.csv')
+nn_data_df <- read.csv(file = 'data_dir/NN_csv_table.csv')
 
 
 ### ANALYSIS PLAN FUNCTIONS ###
 # ap_render_plot1 # todo move to analysis plan
 ap_render_plot1 <- function(dataframe, column_name) {
-  plot <- plot(Income ~ eval(as.name(column_name)),
+  plot <- plot(dataframe$income ~ eval(as.name(column_name)),
                dataframe,
                main = paste('Income by', column_name),
                ylab = 'Income',
@@ -40,6 +45,7 @@ ap_render_plot1 <- function(dataframe, column_name) {
 ### SCRIPTS ###
 source(file = 'sections/implementation/im_script1.R')
 source(file = 'sections/implementation/im_script2.R')
+#source(file = 'sections/implementation/im_script3.R')
 
 
 ### SHINY UI ###
@@ -84,13 +90,21 @@ desctiption_of_data <- tabPanel(
     div(class = 'section',
         h1('Description of Data that is Redily Avaiable About the Issue'),
     ),
-    div(class = 'section', # todo remove needed items div from description_of_data
+    div(class = 'section',
         h4('Needed Items:'),
         includeHTML(path = 'sections/description_of_data/dd_requirements.html')
     ),
     div(class = 'section',
         h4('Database Connection Engines'),
+        includeHTML(path = 'sections/description_of_data/dd_body1.html')
+    ),
+    div(class = 'section',
+        h4('Database Connection Engines'),
         includeHTML(path = 'sections/description_of_data/database_engines.html')
+    ),
+    div(class = 'section',
+        h4('Database Connection Engines'),
+        includeHTML(path = 'sections/description_of_data/dd_body2.html')
     ),
 
   ),
@@ -121,7 +135,6 @@ analysis_plan <- tabPanel(
         plotOutput(outputId = 'ap_plot1', height = 650)
 
     ),
-    # todo add second exploratory plot here
     div(class = 'section',
         includeHTML(path = 'sections/analysis_plan/ap_body_2.html')
     ),
@@ -140,6 +153,10 @@ expectations <- tabPanel(
         h4('Needed Items'),
         includeHTML(path = 'sections/expectations/ex_requirements.html')
     ),
+    # ex_body1.html
+    div(class = 'section',
+        includeHTML(path = 'sections/expectations/ex_body1.html')
+    ),
   ),
 )
 
@@ -155,7 +172,22 @@ recomendations <- tabPanel(
         h4('Needed Items:'),
         includeHTML(path = 'sections/recomendations/re_requirements.html')
     ),
+    # re_body1.html
+    div(class = 'section',
+        includeHTML(path = 'sections/recomendations/re_body1.html')
+    ),
   ),
+)
+
+im_plot6_choice1 <- 'Residuals Plot'
+im_plot6_choice2 <- 'Residuals show constant variance'
+im_plot6_choice3 <- 'There are no significant autocorrelations in the residuals'
+im_plot6_choice4 <- 'There are no significant partial autocorrelations in the residuals'
+im_plot6_choice5 <- 'The distribution of the residuals looks approximately normal'
+im_plot6_choice6 <- 'The homoscedasticity, normality, and autocorrelation assumtions of linear regression appear to be satisfited byh the model we have choose.'
+
+im_plot6_choices <- list(
+  im_plot6_choice1, im_plot6_choice2, im_plot6_choice3, im_plot6_choice4, im_plot6_choice5, im_plot6_choice6
 )
 
 # Implementation
@@ -238,14 +270,48 @@ implementation <- tabPanel(
     div(class = 'section',
         includeHTML(path = 'sections/implementation/im_body7.html')
     ),
-    # im_plot5
+    # im_plot5 todo plot rmse
     div(class = 'section',
-        plotOutput(outputId = 'im_plot5', height = 650),
+        imageOutput(outputId = 'im_plot5', inline = TRUE),
     ),
     # im_body8.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body8.html')
+    ),
     # im_body_console2.html
-    # im_body9.html
-    # im_plot6
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body_console2.html')
+    ),
+    # im_body6.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body9.html')
+    ),
+    # im_plot6 todo plot modal diagnostics for kfolds shit
+    div(class = 'section',
+        selectInput(inputId = 'im_plot6_select',
+                    label = "Modal Diagnostic Plots",
+                    selected = NULL,
+                    choices = im_plot6_choices,
+                    width = '100%'
+        ),
+        imageOutput(outputId = 'im_plot6', inline = TRUE),
+    ),
+    # im_body10.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body10.html')
+    ),
+    # im_plot7 todo plot original vs fitted values
+    div(class = 'section',
+        plotOutput(outputId = 'im_plotnn', height = 650),
+    ),
+    # im_body11.html
+    div(class = 'section',
+        includeHTML(path = 'sections/implementation/im_body11.html'),
+    ),
+    # im_plot8 first neural network
+    div(class = 'section',
+        imageOutput(outputId = 'im_plot8', inline = TRUE)
+    ),
   ),
 )
 
@@ -337,16 +403,16 @@ ui <- bootstrapPage(
 
 ### SHINY SERVER ###
 
-server <- function(input, output) {
+server <- function(input, output, session) {
 
-  set.seed(122)
-  histdata <- rnorm(100)
-
-  output$ex_plot <- renderPlot({
-    data <- histdata[seq_len(input$ex_slider)]
-    plot <- hist(data)
-    show(plot)
-  })
+  #set.seed(122)
+  #histdata <- rnorm(100)
+  #
+  #output$ex_plot <- renderPlot({
+  #  other_data_data <- histdata[seq_len(input$ex_slider)]
+  #  plot <- hist(other_data_data)
+  #  show(plot)
+  #})
 
   ### analysis_plan ###
   #ap_plot1
@@ -380,11 +446,37 @@ server <- function(input, output) {
   })
 
   #im_plot5
-  output$im_plot5 <- renderPlot({
-    plot <- im_render_plot5(aTimeMonth_v3)
-    show(plot)
-  })
+  output$im_plot5 <- renderImage({
+    filename <- "images/im_plot5.png"
+    list(src = filename)
+  }, deleteFile = FALSE)
+
+  #im_plot6
+  output$im_plot6 <- renderImage({
+
+    if (input$im_plot6_select == im_plot6_choice1)
+
+
+    filename <- im_render_plot6(input$im_plot6_select)
+    list(
+      src = filename
+    )
+  }, deleteFile = FALSE)
+
+  #im_plot8 todo change label
+  output$im_plot8 <- renderImage({
+
+    filename <- "images/Rplot04.png"
+
+    # Return a list containing information about the image
+    list(
+      src = filename
+    )
+
+
+  }, deleteFile = FALSE)
 
 }
 
 shinyApp(ui, server)
+
