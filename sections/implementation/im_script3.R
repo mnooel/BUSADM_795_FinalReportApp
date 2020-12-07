@@ -1,5 +1,5 @@
-# Title     : TODO
-# Objective : TODO
+# Title     : im_script3.R
+# Objective : Neural Network
 # Created by: michaelnoel
 # Created on: 12/6/20
 
