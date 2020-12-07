@@ -22,14 +22,30 @@
         The assumptions of linear regression include:
     </p>
     <ol>
-        <li>Linear relationship: It is assumed that a linear relationship exists between the dependent and independent variables.</li>
+        <li>Linear relationship: It is assumed that a linear relationship exists between the dependent and independent
+            variables.
+        </li>
         <li>Independence: There is no correlation between consecutive residuals in time series data.</li>
         <li>Homoscedasticity: The residuals have constant variance at every level of x.</li>
         <li>Normality: The residuals of the model are normally distributed.</li>
     </ol>
     <h3>Neural Network</h3>
     <p>
-        Todo: neural network content needed here
+        We wanted to try one more modeling technique on the Core Creative data that was not based on linear regression.
+        The technique we chose is the popular machine learning practice of artificial neural networks. The specific type
+        of neural network we use is called a feed-forward neural network. This neural network passes data from inputs,
+        through layers of nodes, to outputs in one direction. Each node receives the weighted sum of the input nodes
+        feeding into it. If the value of this node is above a certain threshold, it “fires” by sending its value to the
+        next node.
     </p>
-    <!-- todo neural network items needed here -->
+    <p>
+        The neural network is improved with the use of training data. Before being trained, the neural network’s weights
+        and thresholds are random values. As the training data passes through the network, these values are adjusted.
+        After training and testing the model through an iterative process, the neural network can be used to predict
+        outcomes using new data (Hardesty, 2017).
+    </p>
+    <p>
+        Our implementation of a neural network will rely on the ‘neuralnet’ package in R. We will use the same dataset
+        as the linear regression models and compare the results of the neural network to the linear models.
+    </p>
 </div>

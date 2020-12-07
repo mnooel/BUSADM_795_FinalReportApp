@@ -1,0 +1,25 @@
+<!-- sections/expectations/re_body1.html -->
+<div class="html_content">
+    <h3>Neural Network Model</h3>
+    <p>
+        For our analysis and models to be useful we need to have certainty that the assumptions of the modeling
+        techniques are adequately met. The first two models we use are based on linear regression. As mentioned above,
+        there are four major assumptions that must be met in linear regression <a
+            href="https://www.statology.org/linear-regression-assumptions/" target="_blank">
+        (Bobbit, 2020)
+    </a>. Our implementation of the
+        linear regression models relies on model diagnostics to check these assumptions. The next section will
+        illustrate that these assumptions were not violated in our analysis. Given this, we believe the linear
+        regression models will be reasonable in their application, regardless of their predictive ability.
+    </p>
+    <p>
+        Neural networks don’t have the same limitations as linear regression. They impose minimal demands on model
+        structure and that may be in part why they are becoming more and more prevalent. However, the number of cases in
+        our dataset is relatively small (94) compared to many applications of neural networks which may use tens of
+        thousands or a nearly unlimited dataset. This may lead to a neural network that doesn’t have enough training
+        data to draw useful conclusions. Indeed, as our analysis will show, the Root Mean Square Error of the neural
+        network was higher than the linear models’ RMSE. This high error could be in part due to the limited data we fed
+        into the neural network. It could also be a reflection of including the wrong independent variables or not
+        enough independent variables in the network.
+    </p>
+</div>
