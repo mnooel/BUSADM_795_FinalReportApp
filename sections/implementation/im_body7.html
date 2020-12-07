@@ -1,0 +1,37 @@
+<!-- sections/implementation/im_body7.html -->
+<div class="html_content">
+    <h3>Linear Model: Multiple Lagging Predictors and Indicator Variables</h3>
+    <p>
+        The first linear model only included income and month variables from our dataset. We wanted to test another
+        model to see if including more of the available data could increase our prediction capability.
+    </p>
+    <p>
+        We created 1 period lagging variables of the additional independent variables in our dataset using the Hmisc
+        package in R. The goal of doing this was to create a model in which we were using the previous months data to
+        predict the current months income.
+    </p>
+    <p>
+        After creating the lagged variables and appending them to our data frame our next step was to determine which
+        independent variables would be most relevant. Given the fact that we have over 20 potential variables to draw
+        on, we needed a way to test all the different model permutations. We considered using Bayesian Information
+        Criterion to determine the relevant variables. However, there are limitations to this approach. Namely, we limit
+        the choices of possible models to be included. If we only pick the model with lowest BIC we may ignore other
+        equally good models. <a href="https://statswithr.github.io/book/bayesian-model-choice.html" target="_blank">
+        (Clyde et al., 2020)
+    </a>
+    </p>
+    <p>
+        Based on the limitations of the Bayesian Information Criterion we decided to use best subsets analysis to
+        determine the relevant variables for inclusion. The Leaps package in R allowed us to perform a best subsets
+        analysis. We were able to determine which one variable model, two variable model, three variable model, and so
+        on produce the highest R-squared value.
+    </p>
+    <p>
+        Armed with this knowledge we next determined which of the best subset models had the lowest RMSE (Root Mean
+        Square Error). With around 90 cases to draw from, we decided k-fold cross validation was the best way to find
+        which model produced the lowest RMSE. We created 5 folds and plotted the RMSE values corresponding to the number
+        of coefficients in each best subset model. The plot indicated the best subset model with 6 predictor variables
+        produced the lowest RMSE. We then fit this model to our data set and plotted the fitted values versus the actual
+        income values to visualize our model’s predictive capability.
+    </p>
+</div>

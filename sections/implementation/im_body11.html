@@ -1,0 +1,21 @@
+<!-- sections/implementation/im_body11.html -->
+<div class="html_content">
+    <h3>Neural Network Model</h3>
+    <p>
+        The linear models we tested were less predictive than we hoped so we decided to try a neural network model using
+        the neuralnet package in R. For this model we decided again to lag the independent variables using the Hmisc
+        package and create indicator variables for each month.
+    </p>
+    <p>
+        To begin with, we used the same 6 predictor variables that produced the lowest RMSE in the best subsets and
+        k-fold analysis from our linear model. After playing around with including other predictor variables in the
+        neural network we decided to add 2 more for a total of 8 predictor variables. We also adjusted the number of
+        hidden layers and neurons in the neural network.
+    </p>
+    <p>
+        We found the neural network with 1 hidden layer and 4 neurons produced the lowest RMSE. Once we determined the
+        number of hidden layers to use, we adjusted the size of the sample training data and test data. We found that
+        dividing the sample into 80% training data and holding out 20% for the test data allowed the model to produce
+        the lowest RMSE.
+    </p>
+</div>

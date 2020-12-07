@@ -1,99 +1,118 @@
 input[type="number"] {
-  max-width: 80%;
+    max-width: 80%;
 }
 
 div.section {
-  margin: auto;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  width: 50%;
-  top: 1500px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+    margin: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 50%;
+    top: 1500px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
 }
 
 div.section_head {
-  margin: auto;
-  padding-top: 75px;
-  width: 50%;
-  top: 1500px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+    margin: auto;
+    padding-top: 75px;
+    width: 65%;
+    top: 1500px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
 }
 
+div.tab-pane {
+    margin: auto;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+
 div.html_content {
-  margin: auto;
-  padding-top: 15px;
-  width: 100%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+    margin: auto;
+    padding-top: 15px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
 }
 
 div.html_content_centered {
-  text-align: center;
-  margin: auto;
-  padding-top: 1px;
-  width: 100%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+    text-align: center;
+    margin: auto;
+    padding-top: 1px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
 }
 
 .irs-text {
-  font-size: 14pt;
+    font-size: 14pt;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
 img.intro_icons {
-  max-width: 100%;
-  max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 /* Customize fonts */
 body, label, input, button, select, p {
-  font-family: 'Helvetica Neue', Helvetica;
-  font-size: 14pt;
-  font-weight: 350;
+    font-family: 'Helvetica Neue', Helvetica;
+    font-size: 18pt;
+    font-weight: 350;
+    padding-top: 15px;
 }
+
 h1, h2, h3, h4 {
-  font-weight: 400;
+    font-weight: 400;
 }
 
 #controls {
-  /* Appearance */
-  background-color: white;
-  padding: 0 10px 10px 10px;
-  cursor: move;
-  /* Fade out while not hovering */
-  opacity: 0.55;
-  zoom: 0.9;
-  transition: opacity 500ms 1s;
+    /* Appearance */
+    background-color: white;
+    padding: 0 10px 10px 10px;
+    cursor: move;
+    /* Fade out while not hovering */
+    opacity: 0.55;
+    zoom: 0.9;
+    transition: opacity 500ms 1s;
 }
 
 #controls:hover {
-  /* Fade in while hovering */
-  opacity: 0.75;
-  transition-delay: 0;
+    /* Fade in while hovering */
+    opacity: 0.75;
+    transition-delay: 0;
 }
 
 #logo {
-  /* Appearance */
-  background-color: transparent;
-  cursor: move;
-  /* Fade out while not hovering */
-  opacity: 0.25;
-  zoom: 0.9;
-  transition: opacity 500ms 1s;
+    /* Appearance */
+    background-color: transparent;
+    cursor: move;
+    /* Fade out while not hovering */
+    opacity: 0.25;
+    zoom: 0.9;
+    transition: opacity 500ms 1s;
 }
 
 #logo:hover {
-  /* Fade in while hovering */
-  opacity: 0.95;
-  transition-delay: 0;
+    /* Fade in while hovering */
+    opacity: 0.95;
+    transition-delay: 0;
 }

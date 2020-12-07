@@ -38,8 +38,8 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# data files
-data/
+# other_data_data files
+other_data_data/
 /sections/analysis_plan/data/
 
 # InteliJ IDE .idea files
