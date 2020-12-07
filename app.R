@@ -27,14 +27,14 @@ if (interactive()) {
 
   # import other_data_data
   aTimeMonth_v3 <- read.csv("data_dir/edited_csv_table_dataaTimeMonth_v3.csv")
-  Formal_aTimeMonth_v3 <- read.csv('data_dir/formal_csv_table_dataaTimeMonth_v3.csv')
+  Formal_aTimeMonth_v3 <- read.csv('data_dir/ap_plot1_data.csv')
   nn_data_df <- read.csv(file = 'data_dir/NN_csv_table.csv')
 
 
   ### ANALYSIS PLAN FUNCTIONS ###
   # ap_render_plot1 # todo move to analysis plan
   ap_render_plot1 <- function(dataframe, column_name) {
-    plot <- plot(dataframe$income ~ eval(as.name(column_name)),
+    plot <- plot(dataframe$Income ~ eval(as.name(column_name)),
                  dataframe,
                  main = paste('Income by', column_name),
                  ylab = 'Income',
@@ -52,7 +52,7 @@ if (interactive()) {
   ### SHINY UI ###
 
 
-  # Introduction
+  # Introduction # todo done
   introduction <- tabPanel(
     title = 'Intoduction',
     fluidPage(
@@ -84,6 +84,7 @@ if (interactive()) {
   )
 
   # Desctiption of Data Avaiable
+  # todo table output
   desctiption_of_data <- tabPanel(
     title = 'Desc. of Data',
     fluidPage(
@@ -100,7 +101,6 @@ if (interactive()) {
           includeHTML(path = 'sections/description_of_data/dd_body1.html')
       ),
       div(class = 'section',
-          h4('Database Connection Engines'),
           includeHTML(path = 'sections/description_of_data/database_engines.html')
       ),
       div(class = 'section',
@@ -112,6 +112,9 @@ if (interactive()) {
   )
 
   # Analysis Plan
+  # todo reference proper table
+  # todo add hyperlink
+  # todo btm padding
   analysis_plan <- tabPanel(
     title = 'Analysis Plan',
     fluidPage(
