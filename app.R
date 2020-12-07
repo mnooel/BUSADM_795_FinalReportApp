@@ -258,6 +258,7 @@ be satisfited byh the model we have choose.'
                       width = '100%'
           ),
           plotOutput(outputId = 'im_plot3', height = 650),
+          htmlOutput(outputId = 'im_plot3_desc', inline = TRUE),
       ),
       # im_body5.html: Plot Original vs Fitted Values
       div(class = 'section',
@@ -323,7 +324,7 @@ be satisfited byh the model we have choose.'
           sliderInput("im_plot9_slider2", "layer 2 neurons", 0, 10, 0, width='100%'),
           sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 10, 0, width='100%'),
 
-          plotOutput(outputId = 'im_plot9', height = 800),
+          plotOutput(outputId = 'im_plot9', height = 1000),
       ),
 
     ),
@@ -419,14 +420,6 @@ be satisfited byh the model we have choose.'
 
   server <- function(input, output, session) {
 
-    #set.seed(122)
-    #histdata <- rnorm(100)
-    #
-    #output$ex_plot <- renderPlot({
-    #  other_data_data <- histdata[seq_len(input$ex_slider)]
-    #  plot <- hist(other_data_data)
-    #  show(plot)
-    #})
 
     ### analysis_plan ###
     #ap_plot1
@@ -451,6 +444,11 @@ be satisfited byh the model we have choose.'
     output$im_plot3 <- renderPlot({
       plot <- im_render_plot3(aTimeMonth_v3, input$im_plot3_select)
       show(plot)
+    })
+
+    output$im_plo3_desc <- renderText({
+      desc <- im_render_plot3_desc(input$im_plot3_select)
+      desc
     })
 
     #im_plot4
