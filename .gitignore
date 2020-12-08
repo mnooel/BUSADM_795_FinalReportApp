@@ -44,3 +44,4 @@ other_data_data/
 
 # InteliJ IDE .idea files
 .idea
+data_dir/
