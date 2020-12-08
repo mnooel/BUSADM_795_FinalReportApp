@@ -73,9 +73,9 @@ executive_summary <- tabPanel(
     div(class = 'section',
         h1('Executive Summary'),
     ),
-    div(class = 'section', # todo remove needed items div from executive_summary
-        includeHTML(path = './sections/executive_summary/es_requirements.html')
-    ),
+    #div(class = 'section', # todo remove needed items div from executive_summary
+    #    includeHTML(path = './sections/executive_summary/es_requirements.html')
+    #),
     div(class = 'section',
         includeHTML(path = './sections/executive_summary/es_body1.html')
     ),
@@ -83,7 +83,6 @@ executive_summary <- tabPanel(
 )
 
 # Desctiption of Data Avaiable
-# todo table output
 desctiption_of_data <- tabPanel(
   title = 'Desc. of Data',
   fluidPage(
@@ -91,19 +90,18 @@ desctiption_of_data <- tabPanel(
     div(class = 'section',
         h1('Description of Data that is Redily Avaiable About the Issue'),
     ),
+    #div(class = 'section',
+    #    h4('Needed Items:'),
+    #    includeHTML(path = './sections/description_of_data/dd_requirements.html')
+    #),
     div(class = 'section',
-        h4('Needed Items:'),
-        includeHTML(path = './sections/description_of_data/dd_requirements.html')
-    ),
-    div(class = 'section',
-        h4('Database Connection Engines'),
         includeHTML(path = './sections/description_of_data/dd_body1.html')
     ),
     div(class = 'section',
-        includeHTML(path = './sections/description_of_data/database_engines.html')
+        includeHTML(path = './sections/description_of_data/database_engines.html'),
+        h4('Database Connection Engines'),
     ),
     div(class = 'section',
-        h4('Database Connection Engines'),
         includeHTML(path = './sections/description_of_data/dd_body2.html')
     ),
 
@@ -111,9 +109,6 @@ desctiption_of_data <- tabPanel(
 )
 
 # Analysis Plan
-# todo reference proper table
-# todo add hyperlink
-# todo btm padding
 analysis_plan <- tabPanel(
   title = 'Analysis Plan',
   fluidPage(
@@ -121,10 +116,10 @@ analysis_plan <- tabPanel(
     div(class = 'section',
         h1('Analysis Plan'),
     ),
-    div(class = 'section', # todo remove needed items div from analysis_plan
-        h4('Needed Items:'),
-        includeHTML(path = './sections/analysis_plan/ap_requirement.html')
-    ),
+    #div(class = 'section',
+    #    h4('Needed Items:'),
+    #    includeHTML(path = './sections/analysis_plan/ap_requirement.html')
+    #),
     div(class = 'section',
         includeHTML(path = './sections/analysis_plan/ap_body1.html')
     ),
@@ -152,10 +147,10 @@ expectations <- tabPanel(
     div(class = 'section',
         h1('Expectations'),
     ),
-    div(class = 'section', # todo remove needed items div from expectations
-        h4('Needed Items'),
-        includeHTML(path = './sections/expectations/ex_requirements.html')
-    ),
+    #div(class = 'section',
+    #    h4('Needed Items'),
+    #    includeHTML(path = './sections/expectations/ex_requirements.html')
+    #),
     # ex_body1.html
     div(class = 'section',
         includeHTML(path = './sections/expectations/ex_body1.html')
@@ -171,10 +166,10 @@ recomendations <- tabPanel(
     div(class = 'section',
         h1('Recomendations'),
     ),
-    div(class = 'section', # todo remove needed items div from recomendations
-        h4('Needed Items:'),
-        includeHTML(path = './sections/recomendations/re_requirements.html')
-    ),
+    #div(class = 'section',
+    #    h4('Needed Items:'),
+    #    includeHTML(path = './sections/recomendations/re_requirements.html')
+    #),
     # re_body1.html
     div(class = 'section',
         includeHTML(path = './sections/recomendations/re_body1.html')
@@ -191,10 +186,10 @@ implementation <- tabPanel(
         h1('Implementation'),
     ),
     # requirements section
-    div(class = 'section', # todo remove needed items div from implementation
-        h4('Needed Items:'),
-        includeHTML(path = './sections/implementation/im_requirements.html')
-    ),
+    #div(class = 'section',
+    #    h4('Needed Items:'),
+    #    includeHTML(path = './sections/implementation/im_requirements.html')
+    #),
     # im_body1.html
     div(class = 'section',
         includeHTML(path = './sections/implementation/im_body1.html')
@@ -310,9 +305,10 @@ implementation <- tabPanel(
         sliderInput("im_plot9_slider2", "layer 2 neurons", 0, 10, 0, width = '100%'),
         sliderInput("im_plot9_slider3", "layer 3 neurons", 0, 10, 0, width = '100%'),
         sliderInput('im_plot9_slider4', 'test population %', 10, 90, 80, width = '100%'),
+        actionButton('go_nn', "render nn", class = 'btn-success'),
 
 
-        plotOutput(outputId = 'im_plot9', height = 1000),
+        imageOutput(outputId = 'im_plot9', height = 1000),
     ),
     div(class = 'section',
         includeHTML(path = './sections/implementation/im_body12.html')
@@ -328,10 +324,10 @@ next_steps <- tabPanel(
     div(class = 'section',
         h1('Next Steps'),
     ),
-    div(class = 'section', # todo remove needed items div from next_steps
-        h4('Needed Items:'),
-        includeHTML(path = './sections/next_steps/ns_requirements.html')
-    ),
+    #div(class = 'section', # todo remove needed items div from next_steps
+    #    h4('Needed Items:'),
+    #    includeHTML(path = './sections/next_steps/ns_requirements.html')
+    #),
     div(class = 'section',
         includeHTML(path = './sections/next_steps/ns_body1.html')
     ),
@@ -346,10 +342,10 @@ references <- tabPanel(
     div(class = 'section',
         h1('References'),
     ),
-    div(class = 'section',  # todo remove needed items div from references
-        h4('Needed Items:'),
-        includeHTML(path = './sections/references/rf_references.html')
-    ),
+    #div(class = 'section',  # todo remove needed items div from references
+    #    h4('Needed Items:'),
+    #    includeHTML(path = './sections/references/rf_references.html')
+    #),
     div(class = 'section',
         includeHTML(path = './sections/references/rf_body1.html')
     ),
@@ -483,126 +479,114 @@ server <- function(input, output, session) {
   }, deleteFile = FALSE)
 
   # neural network visualization
-  output$im_plot9 <- renderPlot({
-
+  output$im_plot9 <- renderImage({
     # plot the NN
-    plot_neural_network <- function(nn_dataframe, layer1, layer2, layer3, test_per) {
-
-      ### layers ###
-      layers <- list(layer1, layer2, layer3)
-      neuron_vec <- c()
-
-      for (layer in layers) {
-        if (layer == 0) { }
-        else(neuron_vec <- append(neuron_vec, layer))
-      }
-      print(neuron_vec)
-
-      # test percentage
-      test_percentage <- (test_per / 100)
-
-      ### neural network ###
-      # remove outliers
-      dataframe <- nn_dataframe[-64,]
-
-      # numeric index cols for months
-      Jan <- as.numeric(dataframe$month_name == "Jan")
-      Feb <- as.numeric(dataframe$month_name == "Feb")
-      Mar <- as.numeric(dataframe$month_name == "Mar")
-      Apr <- as.numeric(dataframe$month_name == "Apr")
-      May <- as.numeric(dataframe$month_name == "May")
-      Jun <- as.numeric(dataframe$month_name == "Jun")
-      Jul <- as.numeric(dataframe$month_name == "Jul")
-      Aug <- as.numeric(dataframe$month_name == "Aug")
-      Sep <- as.numeric(dataframe$month_name == "Sep")
-      Oct <- as.numeric(dataframe$month_name == "Oct")
-      Nov <- as.numeric(dataframe$month_name == "Nov")
-      Dec <- as.numeric(dataframe$month_name == "Dec")
-      # bind to the other_data_data
-      dataframe <- cbind(dataframe, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec)
-
-      # other_data_data columns needed
-
-      # lag each column
-      income_1 <- Lag(dataframe$income, 1)
-      hours_worked_1 <- Lag(dataframe$hours_worked, 1)
-      billable_hours_1 <- Lag(dataframe$billable_hours, 1)
-      billable_amount_1 <- Lag(dataframe$billable_amount, 1)
-      new_biz_hours_1 <- Lag(dataframe$new_biz_hours, 1)
-      new_biz_amount_1 <- Lag(dataframe$new_biz_amount, 1)
-      num_of_time_entries_1 <- Lag(dataframe$num_of_time_entries, 1)
-      number_of_time_entries_billable_1 <- Lag(dataframe$number_of_time_entries_billable, 1)
-      number_of_new_biz_time_entries_1 <- Lag(dataframe$number_of_new_biz_time_entries, 1)
-      cost_of_goods_sold_1 <- Lag(dataframe$cost_of_goods_sold, 1)
-      expense_1 <- Lag(dataframe$expense, 1)
-
-      # new other_data_data.frame of neural network other_data_data
-      NN.data <- data.frame(dataframe$income, dataframe$month, income_1, hours_worked_1, billable_hours_1, billable_amount_1,
-                            new_biz_hours_1, new_biz_amount_1, num_of_time_entries_1,
-                            number_of_time_entries_billable_1, number_of_new_biz_time_entries_1,
-                            cost_of_goods_sold_1, expense_1, Jan, Feb, Mar, Apr,
-                            May, Jun, Jul, Aug, Sep, Oct, Nov, Dec)
 
 
-      # omit nan
-      NN.data <- na.omit(NN.data)
+    ### layers ###
+    layers <- list(input$im_plot9_slider1, input$im_plot9_slider2, input$im_plot9_slider3)
+    neuron_vec <- c()
 
-      samplesize <- test_percentage * nrow(NN.data)
-      set.seed(80)
-
-      index <- sample(seq_len(nrow(NN.data)), size = samplesize)
-      datatrain <- NN.data[index,]
-      datatest <- NN.data[-index,]
-      max <- apply(NN.data, 2, max)
-      min <- apply(NN.data, 2, min)
-      scaled <- as.data.frame(scale(NN.data, center = min, scale = max - min))
-      trainNN <- scaled[index,]
-      trainNN
-      testNN <- scaled[-index,]
-      set.seed(80)
-
-      NN <- neuralnet(dataframe.income ~ number_of_new_biz_time_entries_1 +
-        billable_amount_1 +
-        cost_of_goods_sold_1 +
-        dataframe.month +
-        Oct +
-        Nov +
-        Feb, trainNN, hidden = neuron_vec, linear.output = T, stepmax = 1e7)
-
-
-      #plot(NN)
-      # adjust to height of session
-      width <- session$clientData$output_im_plot9_width
-      height <- session$clientData$output_im_plot9_height
-
-      # A temp file to save the output. It will be deleted after renderImage
-      # sends it, because deleteFile=TRUE.
-      outfile <- tempfile(fileext = '.png')
-
-      #png(outfile, width = width, height = height, res = 72)
-      #dev.off()
-      #print(plot(NN))
-      ##dev.print(outfile)
-      #dev.print(png, outfile, width = width, height = height)
-      #
-      #
-      #list(src = outfile,
-      #     width = width,
-      #     height = height,
-      #     alt = "Rendered Neural Network")
-
-      plotPNG(plot(NN), filename = tempfile(fileext = '.png'), width = width, height = height, res = 72)
-
+    for (layer in layers) {
+      if (layer == 0) { }
+      else(neuron_vec <- append(neuron_vec, layer))
     }
+    print(neuron_vec)
 
-    plot_neural_network(nn_data_df,
-                        input$im_plot9_slider1,
-                        input$im_plot9_slider2,
-                        input$im_plot9_slider3,
-                        input$im_plot9_slider4
-    )
-  }, #deleteFile = TRUE
-  )
+    # test percentage
+    test_percentage <- (input$im_plot9_slider4 / 100)
+
+    ### neural network ###
+    # remove outliers
+    dataframe <- nn_data_df[-64,]
+
+    # numeric index cols for months
+    Jan <- as.numeric(dataframe$month_name == "Jan")
+    Feb <- as.numeric(dataframe$month_name == "Feb")
+    Mar <- as.numeric(dataframe$month_name == "Mar")
+    Apr <- as.numeric(dataframe$month_name == "Apr")
+    May <- as.numeric(dataframe$month_name == "May")
+    Jun <- as.numeric(dataframe$month_name == "Jun")
+    Jul <- as.numeric(dataframe$month_name == "Jul")
+    Aug <- as.numeric(dataframe$month_name == "Aug")
+    Sep <- as.numeric(dataframe$month_name == "Sep")
+    Oct <- as.numeric(dataframe$month_name == "Oct")
+    Nov <- as.numeric(dataframe$month_name == "Nov")
+    Dec <- as.numeric(dataframe$month_name == "Dec")
+    # bind to the other_data_data
+    dataframe <- cbind(dataframe, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec)
+
+    # other_data_data columns needed
+
+    # lag each column
+    income_1 <- Lag(dataframe$income, 1)
+    hours_worked_1 <- Lag(dataframe$hours_worked, 1)
+    billable_hours_1 <- Lag(dataframe$billable_hours, 1)
+    billable_amount_1 <- Lag(dataframe$billable_amount, 1)
+    new_biz_hours_1 <- Lag(dataframe$new_biz_hours, 1)
+    new_biz_amount_1 <- Lag(dataframe$new_biz_amount, 1)
+    num_of_time_entries_1 <- Lag(dataframe$num_of_time_entries, 1)
+    number_of_time_entries_billable_1 <- Lag(dataframe$number_of_time_entries_billable, 1)
+    number_of_new_biz_time_entries_1 <- Lag(dataframe$number_of_new_biz_time_entries, 1)
+    cost_of_goods_sold_1 <- Lag(dataframe$cost_of_goods_sold, 1)
+    expense_1 <- Lag(dataframe$expense, 1)
+
+    # new other_data_data.frame of neural network other_data_data
+    NN.data <- data.frame(dataframe$income, dataframe$month, income_1, hours_worked_1, billable_hours_1, billable_amount_1,
+                          new_biz_hours_1, new_biz_amount_1, num_of_time_entries_1,
+                          number_of_time_entries_billable_1, number_of_new_biz_time_entries_1,
+                          cost_of_goods_sold_1, expense_1, Jan, Feb, Mar, Apr,
+                          May, Jun, Jul, Aug, Sep, Oct, Nov, Dec)
+
+
+    # omit nan
+    NN.data <- na.omit(NN.data)
+
+    samplesize <- test_percentage * nrow(NN.data)
+    set.seed(80)
+
+    index <- sample(seq_len(nrow(NN.data)), size = samplesize)
+    datatrain <- NN.data[index,]
+    datatest <- NN.data[-index,]
+    max <- apply(NN.data, 2, max)
+    min <- apply(NN.data, 2, min)
+    scaled <- as.data.frame(scale(NN.data, center = min, scale = max - min))
+    trainNN <- scaled[index,]
+    trainNN
+    testNN <- scaled[-index,]
+    set.seed(80)
+
+    NN <- neuralnet(dataframe.income ~ number_of_new_biz_time_entries_1 +
+      billable_amount_1 +
+      cost_of_goods_sold_1 +
+      dataframe.month +
+      Oct +
+      Nov +
+      Feb, trainNN, hidden = neuron_vec, linear.output = T, stepmax = 1e7)
+
+
+    # adjust to height of session
+    width <- session$clientData$output_im_plot9_width
+    height <- session$clientData$output_im_plot9_height
+
+    # A temp file to save the output. It will be deleted after renderImage
+    # sends it, because deleteFile=TRUE.
+    outfile <- tempfile(fileext = '.png')
+
+    png(outfile, width = width, height = height)
+    dev.off()
+    print(plot(NN))
+    dev.print(png, outfile,width = width, height = height)
+    dev.off()
+
+
+    list(src = outfile,
+         width = width,
+         height = height,
+         alt = "Rendered Neural Network")
+
+
+  }, deleteFile = TRUE)
 
 }
 
